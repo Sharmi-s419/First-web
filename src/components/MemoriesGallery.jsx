@@ -187,15 +187,25 @@ export default function MemoriesGallery({
                   {photo.isLetter ? (
                     <div className="letter-card-preview">
                       <div className="letter-preview-paper">
-                        <div className="letter-preview-seal">
-                          <Heart size={13} fill="#faebd7" color="#c88151" />
-                          <span>KD &amp; ROWDY</span>
+                        {/* Refined Copper Wax Stamp in Top-Right Corner */}
+                        <div className="letter-preview-seal" aria-label="KD &amp; ROWDY Wax Stamp">
+                          <Heart size={14} fill="#faebd7" color="#faebd7" className="stamp-heart-icon" />
+                          <span className="stamp-seal-name">KD &amp; ROWDY</span>
                         </div>
-                        <div className="letter-preview-text">
+
+                        {/* Letter Header Content with clearance for top-right stamp */}
+                        <div className="letter-preview-header">
+                          <span className="preview-first-letter-badge">The First Letter I Wrote for You 💌</span>
+                          <p className="preview-first-letter-sub">My first letter to you, filled with feelings I wanted you to know.</p>
                           <p className="preview-heading">En Anbe ❤️</p>
-                          <p className="preview-line">“Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️”</p>
-                          <p className="preview-line">“Namma pesina conversations, namma panra silly moments, chinna chinna sandaigal, namma sirippu...”</p>
                         </div>
+
+                        {/* Letter Excerpt */}
+                        <div className="letter-preview-body">
+                          <p className="preview-line">“Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️”</p>
+                          <p className="preview-line">“Namma pesina conversations, namma panra silly moments...”</p>
+                        </div>
+
                         <div className="letter-preview-fade">
                           <span className="letter-open-pill">Read Love Letter 💌</span>
                         </div>
@@ -363,13 +373,21 @@ export default function MemoriesGallery({
               {photos[lightboxIndex].isLetter ? (
                 <div className="lightbox-letter-document">
                   <div className="lightbox-parchment">
-                    <div className="lightbox-seal-badge">
+                    {/* Refined Copper Wax Stamp in Top-Right Corner */}
+                    <div className="lightbox-seal-badge" aria-label="KD &amp; ROWDY Wax Stamp">
                       <div className="seal-circle">
-                        <Heart size={16} fill="#faebd7" color="#c88151" />
+                        <Heart size={18} fill="#faebd7" color="#faebd7" className="stamp-heart-icon" />
                         <span className="seal-text">KD &amp; ROWDY</span>
                       </div>
                     </div>
-                    <h3 className="lightbox-letter-title">En Anbe ❤️</h3>
+
+                    {/* Elegant First-Letter Header above content with dedicated clearance for the stamp */}
+                    <div className="lightbox-letter-header">
+                      <span className="lightbox-first-letter-badge">The First Letter I Wrote for You 💌</span>
+                      <p className="lightbox-first-letter-sub">My first letter to you, filled with feelings I wanted you to know.</p>
+                      <h3 className="lightbox-letter-title">En Anbe ❤️</h3>
+                    </div>
+
                     <div className="lightbox-letter-body">
                       {photos[lightboxIndex].letterBody ? (
                         photos[lightboxIndex].letterBody.map((paragraph, pIdx) => (
@@ -450,11 +468,12 @@ export default function MemoriesGallery({
         .letter-card-preview {
           width: 100%;
           height: 100%;
-          padding: 10px;
-          background: #110f17;
+          padding: 8px;
+          background: #0d0c12;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-sizing: border-box;
         }
 
         .letter-preview-paper {
@@ -462,47 +481,86 @@ export default function MemoriesGallery({
           height: 100%;
           background: linear-gradient(135deg, #fdfbf7 0%, #faf4e8 60%, #f4eada 100%);
           border-radius: 10px;
-          padding: 18px 16px;
+          padding: 16px 14px;
           position: relative;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(200, 140, 90, 0.08);
-          border: 1px solid #e4d7c5;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 0 20px rgba(200, 140, 90, 0.08);
+          border: 1.5px solid #e2d4be;
           overflow: hidden;
           display: flex;
           flex-direction: column;
+          box-sizing: border-box;
         }
 
+        /* Top-Right Stamp in Preview */
         .letter-preview-seal {
           position: absolute;
-          top: 10px;
-          right: 12px;
-          width: 42px;
-          height: 42px;
+          top: 14px;
+          right: 14px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
-          background: radial-gradient(circle at 35% 35%, #d48b5c 0%, #b34a5d 50%, #7d1c2c 100%);
-          border: 1.5px solid rgba(250, 235, 215, 0.6);
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+          background: radial-gradient(circle at 34% 32%, #f8b48c 0%, #d87d4a 32%, #b3562d 68%, #6e201c 100%);
+          border: 2px solid rgba(250, 235, 215, 0.85);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 235, 220, 0.55), inset 0 -2px 4px rgba(60, 15, 10, 0.65);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 1px;
-          z-index: 2;
+          gap: 2px;
+          z-index: 5;
+          box-sizing: border-box;
+          pointer-events: none;
         }
 
-        .letter-preview-seal span {
+        .letter-preview-seal::before {
+          content: '';
+          position: absolute;
+          inset: 2px;
+          border-radius: 50%;
+          border: 1px dashed rgba(250, 235, 215, 0.4);
+          pointer-events: none;
+        }
+
+        .letter-preview-seal .stamp-heart-icon {
+          filter: drop-shadow(0 1px 2px rgba(40, 10, 8, 0.8));
+        }
+
+        .letter-preview-seal .stamp-seal-name {
           font-family: var(--font-serif);
           font-size: 0.38rem;
           letter-spacing: 0.06em;
           color: #faebd7;
           font-weight: 700;
+          text-align: center;
+          line-height: 1;
+          text-shadow: 0 1px 2px rgba(40, 10, 8, 0.95);
         }
 
-        .letter-preview-text {
-          flex: 1;
+        /* Preview Header with clearance for top-right stamp */
+        .letter-preview-header {
+          padding-right: 58px;
+          margin-bottom: 6px;
           display: flex;
           flex-direction: column;
-          gap: 6px;
-          padding-right: 40px;
+        }
+
+        .preview-first-letter-badge {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: #983d22;
+          letter-spacing: 0.02em;
+          line-height: 1.25;
+          margin-bottom: 2px;
+        }
+
+        .preview-first-letter-sub {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic;
+          font-size: 0.7rem;
+          color: #724c38;
+          line-height: 1.25;
+          margin-bottom: 4px;
         }
 
         .preview-heading {
@@ -511,14 +569,23 @@ export default function MemoriesGallery({
           font-size: 1.15rem;
           font-weight: 700;
           color: #8c3218;
-          margin-bottom: 2px;
+          margin: 0;
+          line-height: 1.2;
+        }
+
+        .letter-preview-body {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          overflow: hidden;
         }
 
         .preview-line {
           font-family: 'Caveat', 'Cormorant Garamond', cursive, serif;
-          font-size: 0.95rem;
+          font-size: 0.92rem;
           color: #2b221d;
-          line-height: 1.45;
+          line-height: 1.38;
           font-weight: 600;
         }
 
@@ -527,12 +594,13 @@ export default function MemoriesGallery({
           bottom: 0;
           left: 0;
           right: 0;
-          height: 70px;
-          background: linear-gradient(180deg, transparent 0%, rgba(244, 234, 218, 0.95) 70%, #f4eada 100%);
+          height: 64px;
+          background: linear-gradient(180deg, transparent 0%, rgba(244, 234, 218, 0.95) 65%, #f4eada 100%);
           display: flex;
           align-items: flex-end;
           justify-content: center;
-          padding-bottom: 12px;
+          padding-bottom: 10px;
+          z-index: 4;
         }
 
         .letter-open-pill {
@@ -541,67 +609,131 @@ export default function MemoriesGallery({
           gap: 6px;
           background: #201a24;
           color: #faebd7;
-          border: 1px solid rgba(216, 150, 105, 0.4);
+          border: 1px solid rgba(216, 150, 105, 0.45);
           padding: 5px 14px;
           border-radius: var(--radius-full);
           font-size: 0.74rem;
           font-weight: 600;
           letter-spacing: 0.04em;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+          transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .gallery-card:hover .letter-open-pill {
+          transform: translateY(-2px);
+          background: #2e2433;
+          border-color: rgba(216, 150, 105, 0.8);
         }
 
         /* Lightbox Full Letter View */
         .lightbox-letter-document {
           max-width: 680px;
-          max-height: 75vh;
+          width: 100%;
+          max-height: 80vh;
           overflow-y: auto;
           background: linear-gradient(135deg, #fdfbf7 0%, #faf3e6 60%, #f5ecdb 100%);
           border-radius: var(--radius-lg);
-          padding: 48px 42px;
+          padding: 44px 40px;
           position: relative;
           box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 35px rgba(216, 150, 105, 0.25);
           border: 2px solid #e2d3be;
           color: #2c221c;
+          box-sizing: border-box;
+        }
+
+        .lightbox-parchment {
+          position: relative;
+          width: 100%;
         }
 
         .lightbox-seal-badge {
           position: absolute;
-          top: 24px;
-          right: 28px;
+          top: 0;
+          right: 0;
+          z-index: 5;
         }
 
         .seal-circle {
-          width: 58px;
-          height: 58px;
+          width: 68px;
+          height: 68px;
           border-radius: 50%;
-          background: radial-gradient(circle at 35% 35%, #e89868 0%, #c88151 45%, #7d1c2c 100%);
-          border: 2px solid rgba(250, 235, 215, 0.7);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+          background: radial-gradient(circle at 34% 32%, #f8b48c 0%, #d87d4a 32%, #b3562d 68%, #6e201c 100%);
+          border: 2.5px solid rgba(250, 235, 215, 0.85);
+          box-shadow: 
+            0 8px 24px rgba(0, 0, 0, 0.45),
+            inset 0 3px 5px rgba(255, 235, 220, 0.55),
+            inset 0 -3px 6px rgba(60, 15, 10, 0.7);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 2px;
+          gap: 3px;
+          text-align: center;
+          position: relative;
+          box-sizing: border-box;
+        }
+
+        .seal-circle::before {
+          content: '';
+          position: absolute;
+          inset: 3px;
+          border-radius: 50%;
+          border: 1px dashed rgba(250, 235, 215, 0.45);
+          pointer-events: none;
+        }
+
+        .seal-circle .stamp-heart-icon {
+          filter: drop-shadow(0 1px 2px rgba(40, 10, 8, 0.8));
         }
 
         .seal-circle .seal-text {
           font-family: var(--font-serif);
-          font-size: 0.52rem;
+          font-size: 0.56rem;
           color: #faebd7;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.12em;
           font-weight: 700;
+          text-align: center;
+          line-height: 1;
+          text-shadow: 0 1px 2px rgba(40, 10, 8, 0.95);
+        }
+
+        /* Lightbox Header with clearance for top-right stamp */
+        .lightbox-letter-header {
+          padding-right: 88px;
+          margin-bottom: 24px;
+          padding-bottom: 14px;
+          border-bottom: 1px dashed rgba(140, 50, 24, 0.25);
+          display: flex;
+          flex-direction: column;
+        }
+
+        .lightbox-first-letter-badge {
+          display: inline-block;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 1.18rem;
+          font-weight: 700;
+          color: #9a4023;
+          letter-spacing: 0.04em;
+          margin-bottom: 4px;
+        }
+
+        .lightbox-first-letter-sub {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic;
+          font-size: 1.02rem;
+          color: #724c38;
+          line-height: 1.4;
+          margin-bottom: 12px;
         }
 
         .lightbox-letter-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
           font-style: italic;
-          font-size: 2.1rem;
+          font-size: 2.3rem;
           font-weight: 700;
           color: #8c3218;
-          margin-bottom: 24px;
-          padding-bottom: 12px;
-          border-bottom: 1px dashed rgba(140, 50, 24, 0.25);
-          max-width: 80%;
+          margin: 0;
+          line-height: 1.2;
         }
 
         .lightbox-letter-body {
@@ -930,6 +1062,46 @@ export default function MemoriesGallery({
           }
           .gallery-grid {
             grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .lightbox-letter-document {
+            padding: 32px 18px;
+            max-height: 82vh;
+          }
+          .seal-circle {
+            width: 52px;
+            height: 52px;
+          }
+          .seal-circle .seal-text {
+            font-size: 0.44rem;
+            letter-spacing: 0.08em;
+          }
+          .lightbox-letter-header {
+            padding-right: 66px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+          }
+          .lightbox-first-letter-badge {
+            font-size: 1rem;
+          }
+          .lightbox-first-letter-sub {
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+          }
+          .lightbox-letter-title {
+            font-size: 1.8rem;
+          }
+          .lightbox-letter-body {
+            font-size: 1.18rem;
+            gap: 14px;
+            line-height: 1.55;
+          }
+          .lightbox-letter-signoff {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            padding-top: 14px;
           }
         }
       `}</style>

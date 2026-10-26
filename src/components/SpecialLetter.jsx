@@ -127,6 +127,14 @@ export default function SpecialLetter({
                 <div className="letter-filigree bottom-left" />
                 <div className="letter-filigree bottom-right" />
 
+                {/* Refined Wax Stamp in Top-Right Corner */}
+                <div className="parchment-wax-stamp" aria-label="KD &amp; ROWDY Wax Stamp">
+                  <div className="seal-circle">
+                    <Heart size={18} fill="#faebd7" color="#faebd7" className="stamp-heart-icon" />
+                    <span className="seal-text">{myName} &amp; {partnerName}</span>
+                  </div>
+                </div>
+
                 {isEditing ? (
                   <div className="letter-edit-form">
                     <label className="edit-label">Letter Greeting:</label>
@@ -168,14 +176,20 @@ export default function SpecialLetter({
                   </div>
                 ) : (
                   <div className="letter-content-render">
-                    <div className="letter-top-meta">
-                      <span className="letter-date">October – November 2026</span>
-                      <span className="letter-milestone-tag">1st Month Anniversary</span>
-                    </div>
+                    {/* Header Group with dedicated clearance for the top-right stamp */}
+                    <div className="letter-header-group">
+                      <span className="first-letter-badge">The First Letter I Wrote for You 💌</span>
+                      <p className="first-letter-sub">My first letter to you, filled with feelings I wanted you to know.</p>
 
-                    <h3 className="letter-greeting text-romance">
-                      {greeting}
-                    </h3>
+                      <div className="letter-top-meta">
+                        <span className="letter-date">October – November 2026</span>
+                        <span className="letter-milestone-tag">1st Month Anniversary</span>
+                      </div>
+
+                      <h3 className="letter-greeting text-romance">
+                        {greeting}
+                      </h3>
+                    </div>
 
                     <div className="letter-body text-romance">
                       {paragraphs.split('\n\n').map((para, i) => (
@@ -398,11 +412,43 @@ export default function SpecialLetter({
           box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(200, 129, 81, 0.15);
         }
 
+        .parchment-wax-stamp {
+          position: absolute;
+          top: 32px;
+          right: 36px;
+          z-index: 5;
+        }
+
+        .letter-header-group {
+          padding-right: 88px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .first-letter-badge {
+          display: inline-block;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: var(--copper-200);
+          letter-spacing: 0.04em;
+          margin-bottom: 4px;
+        }
+
+        .first-letter-sub {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic;
+          font-size: 1rem;
+          color: var(--cream-muted);
+          line-height: 1.4;
+          margin-bottom: 18px;
+        }
+
         .letter-top-meta {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 28px;
+          margin-bottom: 24px;
           padding-bottom: 14px;
           border-bottom: 1px solid rgba(216, 150, 105, 0.15);
         }

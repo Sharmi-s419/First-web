@@ -77,7 +77,9 @@ export const defaultAnniversaryData = {
       caption: "A letter from my heart — words written just for you ❤️",
       date: "Always",
       isLetter: true,
-      letterTitle: "Naan idha ungakitte proper-ah sonnena nu therila…",
+      firstLetterHeading: "The First Letter I Wrote for You 💌",
+      firstLetterSubtitle: "My first letter to you, filled with feelings I wanted you to know.",
+      letterTitle: "En Anbe ❤️",
       letterBody: [
         "Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️",
         "Namma pesina conversations, namma panra silly moments, chinna chinna sandaigal, namma sirippu, andha ordinary days ellathukkum naduvula… eppo nu theriyama neenga enakku romba special aayita.",
@@ -129,8 +131,10 @@ export const defaultAnniversaryData = {
 
   // 5. Special Letter
   letter: {
+    firstLetterHeading: "The First Letter I Wrote for You 💌",
+    firstLetterSubtitle: "My first letter to you, filled with feelings I wanted you to know.",
     sealTitle: "From KD with all my heart",
-    greeting: "En Anbe, Happy One Month to Us ❤️",
+    greeting: "En Anbe ❤️",
     paragraphs: [
       "Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️",
       "Namma pesina conversations, namma panra silly moments, chinna chinna sandaigal, namma sirippu, andha ordinary days ellathukkum naduvula… eppo nu theriyama neenga enakku romba special aayita.",

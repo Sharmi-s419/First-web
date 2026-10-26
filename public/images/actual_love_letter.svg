@@ -60,16 +60,20 @@
   <!-- Elegant inner border -->
   <rect x="68" y="58" width="664" height="984" rx="10" fill="none" stroke="#d9caba" stroke-width="1" stroke-dasharray="6,4" opacity="0.6" />
 
+  <!-- Heading & Subtitle -->
+  <text x="95" y="96" font-family="'Cormorant Garamond', Georgia, serif" font-size="18px" font-weight="700" fill="#9a4023" letter-spacing="0.03em">The First Letter I Wrote for You 💌</text>
+  <text x="95" y="120" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-size="15px" fill="#724c38">My first letter to you, filled with feelings I wanted you to know.</text>
+
   <!-- Header Title -->
-  <text x="95" y="115" class="letter-title">En Anbe ❤️</text>
+  <text x="95" y="158" class="letter-title">En Anbe ❤️</text>
 
   <!-- Copper Wax Seal in top-right -->
-  <g transform="translate(640, 115)">
-    <circle cx="0" cy="0" r="42" fill="url(#waxGrad)" filter="url(#waxShadow)" stroke="#f7d5bc" stroke-width="1.5" />
-    <circle cx="0" cy="0" r="34" fill="none" stroke="#faebd7" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.8" />
+  <g transform="translate(640, 116)">
+    <circle cx="0" cy="0" r="42" fill="url(#waxGrad)" filter="url(#waxShadow)" stroke="#f7d5bc" stroke-width="1.8" />
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#faebd7" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.75" />
     <!-- Heart in center -->
-    <path d="M0 12 s-14 -9 -14 -17 a8 8 0 0 1 14 -5 a8 8 0 0 1 14 5 c0 8 -14 17 -14 17 z" fill="#faebd7" opacity="0.95" />
-    <text x="0" y="24" text-anchor="middle" class="seal-text">KD &amp; ROWDY</text>
+    <path d="M0 6 s-11 -7 -11 -13 a6 6 0 0 1 11 -4 a6 6 0 0 1 11 4 c0 6 -11 13 -11 13 z" fill="#faebd7" opacity="0.95" />
+    <text x="0" y="20" text-anchor="middle" class="seal-text">KD &amp; ROWDY</text>
   </g>
 
   <!-- Exact Tamil-English love letter text -->

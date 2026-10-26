@@ -1,6 +1,6 @@
 // LocalStorage and IndexedDB helpers for persisting anniversary website customizations
 
-const STORAGE_KEY = 'romantic_anniversary_data_v3';
+const STORAGE_KEY = 'romantic_anniversary_data_v4';
 const DB_NAME = 'AnniversaryMediaDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'mediaFiles';
@@ -66,17 +66,39 @@ export async function getMediaItem(key) {
 // Load data from localStorage with fallback to defaultData
 export function loadAnniversaryData(defaultData) {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('romantic_anniversary_data_v3');
     if (!saved) return defaultData;
     const parsed = JSON.parse(saved);
+
+    // Merge photos ensuring letter card always has the updated letter data
+    const mergedPhotos = (parsed.photos || defaultData.photos).map((p) => {
+      if (p.isLetter || p.id === 'p3') {
+        const defaultLetter = defaultData.photos.find(dp => dp.id === 'p3') || p;
+        return {
+          ...p,
+          ...defaultLetter,
+          letterTitle: "En Anbe ❤️",
+          firstLetterHeading: "The First Letter I Wrote for You 💌",
+          firstLetterSubtitle: "My first letter to you, filled with feelings I wanted you to know."
+        };
+      }
+      return p;
+    });
+
     // Deep merge with default data so any new fields are preserved
     return {
       ...defaultData,
       ...parsed,
       milestones: parsed.milestones || defaultData.milestones,
-      photos: parsed.photos || defaultData.photos,
+      photos: mergedPhotos,
       reasons: parsed.reasons || defaultData.reasons,
-      letter: { ...defaultData.letter, ...(parsed.letter || {}) },
+      letter: {
+        ...defaultData.letter,
+        ...(parsed.letter || {}),
+        greeting: "En Anbe ❤️",
+        firstLetterHeading: "The First Letter I Wrote for You 💌",
+        firstLetterSubtitle: "My first letter to you, filled with feelings I wanted you to know."
+      },
       longDistance: { ...defaultData.longDistance, ...(parsed.longDistance || {}) },
       song: { ...defaultData.song, ...(parsed.song || {}) },
       finalSurprise: { ...defaultData.finalSurprise, ...(parsed.finalSurprise || {}) }
