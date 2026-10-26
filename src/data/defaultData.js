@@ -130,13 +130,20 @@ export const defaultAnniversaryData = {
   // 5. Special Letter
   letter: {
     sealTitle: "From KD with all my heart",
-    greeting: "My love, happy one month to us. ❤️",
+    greeting: "En Anbe, Happy One Month to Us ❤️",
     paragraphs: [
-      "Even though we cannot always be beside each other, you have a special place in my heart. I am proud of you, your dedication, and everything you work hard for. Distance may keep us apart for now, but it cannot take away the little moments, the love, and the memories we are creating together.",
-      "This is only our first month, and I hope we have many more beautiful chapters ahead of us. Thank you for being someone so special to me.",
-      "Happy first month, my favourite person. I love you. ❤️"
+      "Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️",
+      "Namma pesina conversations, namma panra silly moments, chinna chinna sandaigal, namma sirippu, andha ordinary days ellathukkum naduvula… eppo nu theriyama neenga enakku romba special aayita.",
+      "Enakku oru perfect love story venum nu illa.\nEnakku namma story dhaan venum❤️",
+      "Messy days irukkattum, happy days irukkattum, namma fight pandra days sa irukattum ellamey venum. Unga kooda experience panna dhaan aasai.",
+      "Ennaku namma pesurathula neenga pathi things sa full la solla matinga atha full la finish pandrathu ennaku romba pidikum",
+      "Athu mattum illa unga life la full ahatha place sa na fill pannanum nu ninaikuren.",
+      "So, innaiku naan unnagala enna chose panna sollala… forever promise pannunga nu kooda kekkala.",
+      "Naan just oru vishayam dhaan kekkuren…",
+      "Neenga enna choose pannuvingala ❤️",
+      "Innaikku mattum illa"
     ],
-    signoff: "Forever cheering for you,\nKD"
+    signoff: "Forever cheering for you,\nKD ❤️"
   },
 
   // 6. Our Song

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Edit3, Check, X, Heart, Sparkles, Printer, RotateCcw } from 'lucide-react';
 
 export default function SpecialLetter({
@@ -10,15 +10,32 @@ export default function SpecialLetter({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [greeting, setGreeting] = useState(letterData.greeting || "My love, happy one month to us. ❤️");
+  const [greeting, setGreeting] = useState(letterData.greeting || "En Anbe, Happy One Month to Us ❤️");
   const [paragraphs, setParagraphs] = useState(
     Array.isArray(letterData.paragraphs)
       ? letterData.paragraphs.join('\n\n')
       : (letterData.paragraphs || '')
   );
   const [signoff, setSignoff] = useState(
-    letterData.signoff || `Forever cheering for you,\n${myName}`
+    letterData.signoff || `Forever cheering for you,\n${myName} ❤️`
   );
+
+  // Keep state synchronized with incoming letterData
+  useEffect(() => {
+    if (letterData?.greeting) {
+      setGreeting(letterData.greeting);
+    }
+    if (letterData?.paragraphs) {
+      setParagraphs(
+        Array.isArray(letterData.paragraphs)
+          ? letterData.paragraphs.join('\n\n')
+          : letterData.paragraphs
+      );
+    }
+    if (letterData?.signoff) {
+      setSignoff(letterData.signoff);
+    }
+  }, [letterData]);
 
   const handleEnvelopeClick = () => {
     if (!isOpen) {
@@ -425,6 +442,7 @@ export default function SpecialLetter({
 
         .letter-paragraph {
           position: relative;
+          white-space: pre-line;
         }
 
         .letter-signoff {
