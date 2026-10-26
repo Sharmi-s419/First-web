@@ -29,9 +29,9 @@ export const defaultAnniversaryData = {
   milestones: [
     {
       id: "m1",
-      date: "September 2026",
-      title: "When Our Worlds First Crossed",
-      description: "A quiet spark that turned into the brightest light in my world. The moment destiny put you in my path.",
+      date: "21 September 2026",
+      title: "Where Our Story Began",
+      description: "It all began when you posted an Instagram story about blood donation. I saw it and asked you, ‘Is that about blood donation?’ A simple question, a small conversation, and an unexpected beginning to a story that became so special to me. ❤️",
       icon: "Sparkles"
     },
     {
@@ -61,8 +61,8 @@ export const defaultAnniversaryData = {
   photos: [
     {
       id: "p1",
-      url: "/images/memory1.jpg",
-      caption: "Hands held tight — finding warmth and calm in you wherever we are.",
+      url: "/images/couple_uploaded.jpg",
+      caption: "An imaginary moment we brought to life with AI, but a feeling that is real to us. ❤️",
       date: "October 2026"
     },
     {
@@ -73,9 +73,23 @@ export const defaultAnniversaryData = {
     },
     {
       id: "p3",
-      url: "/images/memory3.jpg",
-      caption: "Cozy moments, handwritten words, and the quiet comfort of your love.",
-      date: "Always"
+      url: "/images/actual_love_letter.svg",
+      caption: "A letter from my heart — words written just for you ❤️",
+      date: "Always",
+      isLetter: true,
+      letterTitle: "Naan idha ungakitte proper-ah sonnena nu therila…",
+      letterBody: [
+        "Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️",
+        "Namma pesina conversations, namma panra silly moments, chinna chinna sandaigal, namma sirippu, andha ordinary days ellathukkum naduvula… eppo nu theriyama neenga enakku romba special aayita.",
+        "Enakku oru perfect love story venum nu illa.\nEnakku namma story dhaan venum❤️",
+        "Messy days irukkattum, happy days irukkattum, namma fight pandra days sa irukattum ellamey venum. Unga kooda experience panna dhaan aasai.",
+        "Ennaku namma pesurathula neenga pathi things sa full la solla matinga atha full la finish pandrathu ennaku romba pidikum",
+        "Athu mattum illa unga life la full ahatha place sa na fill pannanum nu ninaikuren.",
+        "So, innaiku naan unnagala enna chose panna sollala… forever promise pannunga nu kooda kekkala.",
+        "Naan just oru vishayam dhaan kekkuren…",
+        "Neenga enna choose pannuvingala ❤️",
+        "Innaikku mattum illa"
+      ]
     }
   ],
 

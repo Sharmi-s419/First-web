@@ -10,7 +10,8 @@ import {
   ChevronRight, 
   Upload, 
   Check, 
-  Image as ImageIcon 
+  Image as ImageIcon,
+  Heart
 } from 'lucide-react';
 import { compressImageFile } from '../utils/storage';
 
@@ -183,16 +184,35 @@ export default function MemoriesGallery({
                   onClick={() => openLightbox(index)}
                   title="Click to view full image"
                 >
-                  <img
-                    src={photo.url}
-                    alt={photo.caption || `Anniversary memory ${index + 1}`}
-                    loading="lazy"
-                    className="gallery-img"
-                  />
+                  {photo.isLetter ? (
+                    <div className="letter-card-preview">
+                      <div className="letter-preview-paper">
+                        <div className="letter-preview-seal">
+                          <Heart size={13} fill="#faebd7" color="#c88151" />
+                          <span>KD &amp; ROWDY</span>
+                        </div>
+                        <div className="letter-preview-text">
+                          <p className="preview-heading">En Anbe ❤️</p>
+                          <p className="preview-line">“Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️”</p>
+                          <p className="preview-line">“Namma pesina conversations, namma panra silly moments, chinna chinna sandaigal, namma sirippu...”</p>
+                        </div>
+                        <div className="letter-preview-fade">
+                          <span className="letter-open-pill">Read Love Letter 💌</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <img
+                      src={photo.url}
+                      alt={photo.caption || `Anniversary memory ${index + 1}`}
+                      loading="lazy"
+                      className={`gallery-img ${index === 0 ? 'couple-photo' : ''}`}
+                    />
+                  )}
                   <div className="image-overlay">
                     <span className="expand-hint">
                       <Maximize2 size={18} />
-                      <span>View</span>
+                      <span>{photo.isLetter ? 'Read Letter' : 'View'}</span>
                     </span>
                   </div>
                 </div>
@@ -340,11 +360,42 @@ export default function MemoriesGallery({
             )}
 
             <div className="lightbox-image-wrap">
-              <img
-                src={photos[lightboxIndex].url}
-                alt={photos[lightboxIndex].caption || 'Anniversary full size memory'}
-                className="lightbox-img"
-              />
+              {photos[lightboxIndex].isLetter ? (
+                <div className="lightbox-letter-document">
+                  <div className="lightbox-parchment">
+                    <div className="lightbox-seal-badge">
+                      <div className="seal-circle">
+                        <Heart size={16} fill="#faebd7" color="#c88151" />
+                        <span className="seal-text">KD &amp; ROWDY</span>
+                      </div>
+                    </div>
+                    <h3 className="lightbox-letter-title">En Anbe ❤️</h3>
+                    <div className="lightbox-letter-body">
+                      {photos[lightboxIndex].letterBody ? (
+                        photos[lightboxIndex].letterBody.map((paragraph, pIdx) => (
+                          <p key={pIdx} className="lightbox-letter-para">
+                            {paragraph}
+                          </p>
+                        ))
+                      ) : (
+                        <p className="lightbox-letter-para">
+                          Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️
+                        </p>
+                      )}
+                    </div>
+                    <div className="lightbox-letter-signoff">
+                      Forever cheering for you,<br />
+                      KD ❤️
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <img
+                  src={photos[lightboxIndex].url}
+                  alt={photos[lightboxIndex].caption || 'Anniversary full size memory'}
+                  className="lightbox-img"
+                />
+              )}
             </div>
 
             <div className="lightbox-caption-bar">
@@ -388,6 +439,196 @@ export default function MemoriesGallery({
           height: 100%;
           object-fit: cover;
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-img.couple-photo {
+          object-fit: cover;
+          object-position: center 20%;
+        }
+
+        /* Handwritten Letter Card Preview */
+        .letter-card-preview {
+          width: 100%;
+          height: 100%;
+          padding: 10px;
+          background: #110f17;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .letter-preview-paper {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #fdfbf7 0%, #faf4e8 60%, #f4eada 100%);
+          border-radius: 10px;
+          padding: 18px 16px;
+          position: relative;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(200, 140, 90, 0.08);
+          border: 1px solid #e4d7c5;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .letter-preview-seal {
+          position: absolute;
+          top: 10px;
+          right: 12px;
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 35%, #d48b5c 0%, #b34a5d 50%, #7d1c2c 100%);
+          border: 1.5px solid rgba(250, 235, 215, 0.6);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1px;
+          z-index: 2;
+        }
+
+        .letter-preview-seal span {
+          font-family: var(--font-serif);
+          font-size: 0.38rem;
+          letter-spacing: 0.06em;
+          color: #faebd7;
+          font-weight: 700;
+        }
+
+        .letter-preview-text {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          padding-right: 40px;
+        }
+
+        .preview-heading {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: #8c3218;
+          margin-bottom: 2px;
+        }
+
+        .preview-line {
+          font-family: 'Caveat', 'Cormorant Garamond', cursive, serif;
+          font-size: 0.95rem;
+          color: #2b221d;
+          line-height: 1.45;
+          font-weight: 600;
+        }
+
+        .letter-preview-fade {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 70px;
+          background: linear-gradient(180deg, transparent 0%, rgba(244, 234, 218, 0.95) 70%, #f4eada 100%);
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          padding-bottom: 12px;
+        }
+
+        .letter-open-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #201a24;
+          color: #faebd7;
+          border: 1px solid rgba(216, 150, 105, 0.4);
+          padding: 5px 14px;
+          border-radius: var(--radius-full);
+          font-size: 0.74rem;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Lightbox Full Letter View */
+        .lightbox-letter-document {
+          max-width: 680px;
+          max-height: 75vh;
+          overflow-y: auto;
+          background: linear-gradient(135deg, #fdfbf7 0%, #faf3e6 60%, #f5ecdb 100%);
+          border-radius: var(--radius-lg);
+          padding: 48px 42px;
+          position: relative;
+          box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 35px rgba(216, 150, 105, 0.25);
+          border: 2px solid #e2d3be;
+          color: #2c221c;
+        }
+
+        .lightbox-seal-badge {
+          position: absolute;
+          top: 24px;
+          right: 28px;
+        }
+
+        .seal-circle {
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 35%, #e89868 0%, #c88151 45%, #7d1c2c 100%);
+          border: 2px solid rgba(250, 235, 215, 0.7);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2px;
+        }
+
+        .seal-circle .seal-text {
+          font-family: var(--font-serif);
+          font-size: 0.52rem;
+          color: #faebd7;
+          letter-spacing: 0.08em;
+          font-weight: 700;
+        }
+
+        .lightbox-letter-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic;
+          font-size: 2.1rem;
+          font-weight: 700;
+          color: #8c3218;
+          margin-bottom: 24px;
+          padding-bottom: 12px;
+          border-bottom: 1px dashed rgba(140, 50, 24, 0.25);
+          max-width: 80%;
+        }
+
+        .lightbox-letter-body {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          font-family: 'Caveat', 'Cormorant Garamond', cursive, serif;
+          font-size: 1.35rem;
+          line-height: 1.6;
+          color: #2c221c;
+          font-weight: 600;
+        }
+
+        .lightbox-letter-para {
+          white-space: pre-line;
+        }
+
+        .lightbox-letter-signoff {
+          margin-top: 28px;
+          padding-top: 18px;
+          border-top: 1px dashed rgba(140, 50, 24, 0.25);
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 1.35rem;
+          color: #8c3218;
+          font-weight: 600;
+          text-align: right;
         }
 
         .gallery-card:hover .gallery-img {

@@ -1,6 +1,6 @@
 // LocalStorage and IndexedDB helpers for persisting anniversary website customizations
 
-const STORAGE_KEY = 'romantic_anniversary_data_v1';
+const STORAGE_KEY = 'romantic_anniversary_data_v2';
 const DB_NAME = 'AnniversaryMediaDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'mediaFiles';
