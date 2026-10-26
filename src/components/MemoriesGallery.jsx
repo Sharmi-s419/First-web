@@ -1,33 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { 
   Camera, 
-  Plus, 
-  Trash2, 
-  Edit2, 
   Maximize2, 
   X, 
   ChevronLeft, 
   ChevronRight, 
-  Upload, 
-  Check, 
-  Image as ImageIcon,
   Heart
 } from 'lucide-react';
-import { compressImageFile } from '../utils/storage';
 
 export default function MemoriesGallery({
-  photos = [],
-  onUpdatePhotos,
-  isEditMode = false
+  photos = []
 }) {
   const [lightboxIndex, setLightboxIndex] = useState(null);
-  const [editingPhotoId, setEditingPhotoId] = useState(null);
-  const [editCaption, setEditCaption] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
-  
-  const fileInputRef = useRef(null);
-  const replaceInputRef = useRef(null);
-  const [replacingId, setReplacingId] = useState(null);
 
   // Open Lightbox
   const openLightbox = (index) => {
@@ -46,91 +30,6 @@ export default function MemoriesGallery({
   const showNext = (e) => {
     e.stopPropagation();
     setLightboxIndex((prev) => (prev < photos.length - 1 ? prev + 1 : 0));
-  };
-
-  // Start caption edit
-  const handleStartCaptionEdit = (p) => {
-    setEditingPhotoId(p.id);
-    setEditCaption(p.caption || '');
-  };
-
-  // Save caption
-  const handleSaveCaption = (id) => {
-    const updated = photos.map((p) => {
-      if (p.id === id) {
-        return { ...p, caption: editCaption };
-      }
-      return p;
-    });
-    onUpdatePhotos(updated);
-    setEditingPhotoId(null);
-  };
-
-  // Remove photo
-  const handleDeletePhoto = (id) => {
-    if (window.confirm('Do you want to remove this photo?')) {
-      const updated = photos.filter((p) => p.id !== id);
-      onUpdatePhotos(updated);
-    }
-  };
-
-  // Upload new photo
-  const handleFileUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setIsUploading(true);
-      const compressedDataUrl = await compressImageFile(file);
-
-      const newPhoto = {
-        id: 'photo_' + Date.now(),
-        url: compressedDataUrl,
-        caption: 'A moment captured in time with you ❤️',
-        date: 'Our First Month'
-      };
-
-      onUpdatePhotos([...photos, newPhoto]);
-    } catch (err) {
-      alert('Could not process this image. Please try another image file.');
-      console.error(err);
-    } finally {
-      setIsUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
-  };
-
-  // Replace existing photo
-  const handleReplaceClick = (id) => {
-    setReplacingId(id);
-    if (replaceInputRef.current) {
-      replaceInputRef.current.click();
-    }
-  };
-
-  const handleFileReplace = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file || !replacingId) return;
-
-    try {
-      setIsUploading(true);
-      const compressedDataUrl = await compressImageFile(file);
-
-      const updated = photos.map((p) => {
-        if (p.id === replacingId) {
-          return { ...p, url: compressedDataUrl };
-        }
-        return p;
-      });
-
-      onUpdatePhotos(updated);
-    } catch (err) {
-      alert('Could not replace image. Please try again.');
-    } finally {
-      setIsUploading(false);
-      setReplacingId(null);
-      if (replaceInputRef.current) replaceInputRef.current.value = '';
-    }
   };
 
   return (
@@ -155,27 +54,9 @@ export default function MemoriesGallery({
           </p>
         </div>
 
-        {/* Hidden File Inputs */}
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileUpload}
-          accept="image/*"
-          style={{ display: 'none' }}
-        />
-        <input
-          type="file"
-          ref={replaceInputRef}
-          onChange={handleFileReplace}
-          accept="image/*"
-          style={{ display: 'none' }}
-        />
-
         {/* Gallery Grid */}
         <div className="gallery-grid">
           {photos.map((photo, index) => {
-            const isEditingCaption = editingPhotoId === photo.id;
-
             return (
               <div key={photo.id} className="gallery-card copper-card">
                 {/* Image Container */}
@@ -229,109 +110,16 @@ export default function MemoriesGallery({
 
                 {/* Card Body */}
                 <div className="card-body">
-                  {isEditingCaption ? (
-                    <div className="caption-edit-wrap">
-                      <textarea
-                        value={editCaption}
-                        onChange={(e) => setEditCaption(e.target.value)}
-                        placeholder="Write a sweet memory caption..."
-                        rows={2}
-                        className="caption-input"
-                      />
-                      <div className="caption-actions">
-                        <button
-                          type="button"
-                          className="btn-action save"
-                          onClick={() => handleSaveCaption(photo.id)}
-                        >
-                          <Check size={13} /> Done
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-action cancel"
-                          onClick={() => setEditingPhotoId(null)}
-                        >
-                          <X size={13} /> Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="caption-display">
-                      <p className="photo-caption text-romance">
-                        “{photo.caption || 'Special memory with you.'}”
-                      </p>
-                      {photo.date && <span className="photo-date">{photo.date}</span>}
-                    </div>
-                  )}
-
-                  {/* Edit Controls */}
-                  {isEditMode && (
-                    <div className="gallery-card-controls">
-                      <button
-                        type="button"
-                        onClick={() => handleReplaceClick(photo.id)}
-                        className="control-btn"
-                        title="Replace this photo"
-                      >
-                        <Upload size={13} /> Replace
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleStartCaptionEdit(photo)}
-                        className="control-btn"
-                        title="Edit caption"
-                      >
-                        <Edit2 size={13} /> Caption
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeletePhoto(photo.id)}
-                        className="control-btn delete"
-                        title="Delete photo"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  )}
+                  <div className="caption-display">
+                    <p className="photo-caption text-romance">
+                      “{photo.caption || 'Special memory with you.'}”
+                    </p>
+                    {photo.date && <span className="photo-date">{photo.date}</span>}
+                  </div>
                 </div>
               </div>
             );
           })}
-
-          {/* Add New Photo Card */}
-          {isEditMode && (
-            <div 
-              className="add-photo-card copper-card"
-              onClick={() => fileInputRef.current && fileInputRef.current.click()}
-            >
-              <div className="add-inner">
-                <div className="add-icon-circle">
-                  {isUploading ? (
-                    <div className="upload-spinner" />
-                  ) : (
-                    <Plus size={26} />
-                  )}
-                </div>
-                <h4 className="add-title">Add Your Picture</h4>
-                <p className="add-sub">Click to upload from device</p>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* User photo upload callout */}
-        <div className="gallery-action-bar">
-          <button
-            type="button"
-            className="btn-copper-primary"
-            onClick={() => fileInputRef.current && fileInputRef.current.click()}
-          >
-            <Upload size={16} />
-            <span>Upload New Photo</span>
-          </button>
-          <span className="upload-note">
-            Photos are saved locally in your browser. You can add as many as you like!
-          </span>
         </div>
       </div>
 

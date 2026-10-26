@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import { Heart, Sparkles, MailOpen, ArrowDown } from 'lucide-react';
 
 export default function WelcomeScreen({ data, onOpenSurprise }) {
-  const [isOpening, setIsOpening] = useState(false);
-
-  const handleOpen = () => {
-    setIsOpening(true);
-    setTimeout(() => {
+  const handleOpen = (e) => {
+    e?.preventDefault();
+    if (onOpenSurprise) {
       onOpenSurprise();
-    }, 600);
+    }
+    const target = document.getElementById('counter');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
     <section
-      className={`welcome-screen ${isOpening ? 'fade-out' : ''}`}
+      className="welcome-screen"
       id="welcome-screen"
     >
       {/* Ambient background glows */}
@@ -87,12 +89,6 @@ export default function WelcomeScreen({ data, onOpenSurprise }) {
           background: radial-gradient(circle at 50% 45%, #15131e 0%, #08080c 70%, #040406 100%);
           transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
           z-index: 10;
-        }
-
-        .welcome-screen.fade-out {
-          opacity: 0;
-          transform: scale(0.96);
-          pointer-events: none;
         }
 
         .welcome-content {

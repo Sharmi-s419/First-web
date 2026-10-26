@@ -152,11 +152,9 @@ export const defaultAnniversaryData = {
 
   // 6. Our Song
   song: {
-    title: "Golden Hour Melody",
+    title: "Apka Baakka",
     artist: "Dedicated to KD & ROWDY",
-    audioSourceType: "synth", // 'synth' (built-in romantic piano) | 'url' | 'custom'
-    audioUrl: "",
-    customName: ""
+    audioUrl: "/audio/apka_baakka.mp3"
   },
 
   // 7. Long Distance Love Section

@@ -1,38 +1,20 @@
 import React, { useState } from 'react';
-import { Moon, Heart, Sparkles, Send, Shield, Edit2, Check, X } from 'lucide-react';
+import { Moon, Heart, Sparkles, Shield } from 'lucide-react';
 
 export default function LongDistanceLove({
   data = {},
   myName = "KD",
-  partnerName = "ROWDY",
-  onUpdateSection,
-  isEditMode = false
+  partnerName = "ROWDY"
 }) {
   const [hugSent, setHugSent] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [quote, setQuote] = useState(
-    data.quote ||
-    "No matter how many miles separate us, you will always have a special place in my heart. I am proud of you, and I will always be cheering for you."
-  );
-  const [subtext, setSubtext] = useState(
-    data.subtext ||
-    "Looking up at the exact same moon and stars. Your devotion and honor make me prouder than words can ever say."
-  );
+  const quote = data.quote || "No matter how many miles separate us, you will always have a special place in my heart. I am proud of you, and I will always be cheering for you.";
+  const subtext = data.subtext || "Looking up at the exact same moon and stars. Your devotion and honor make me prouder than words can ever say.";
 
   const handleSendHug = () => {
     setHugSent(true);
     setTimeout(() => {
       setHugSent(false);
     }, 4000);
-  };
-
-  const handleSaveEdit = () => {
-    onUpdateSection({
-      ...data,
-      quote,
-      subtext
-    });
-    setIsEditing(false);
   };
 
   return (
@@ -65,57 +47,15 @@ export default function LongDistanceLove({
             {data.title || "Miles Apart, Close at Heart"}
           </h2>
 
-          {isEditing ? (
-            <div className="edit-distance-form">
-              <label className="edit-label">Romantic Message:</label>
-              <textarea
-                value={quote}
-                onChange={(e) => setQuote(e.target.value)}
-                rows={3}
-                className="distance-textarea"
-              />
-              <label className="edit-label">Subtext:</label>
-              <textarea
-                value={subtext}
-                onChange={(e) => setSubtext(e.target.value)}
-                rows={2}
-                className="distance-textarea"
-              />
-              <div className="edit-actions" style={{ justifyContent: 'center' }}>
-                <button type="button" className="btn-action save" onClick={handleSaveEdit}>
-                  <Check size={14} /> Save Message
-                </button>
-                <button type="button" className="btn-action cancel" onClick={() => setIsEditing(false)}>
-                  <X size={14} /> Cancel
-                </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              {/* Romantic Quote */}
-              <blockquote className="distance-quote text-romance">
-                “{quote}”
-              </blockquote>
+          {/* Romantic Quote */}
+          <blockquote className="distance-quote text-romance">
+            “{quote}”
+          </blockquote>
 
-              {/* Subtext honoring dedication */}
-              <p className="distance-subtext">
-                {subtext}
-              </p>
-
-              {/* Edit button */}
-              {isEditMode && (
-                <div style={{ marginBottom: 20 }}>
-                  <button
-                    type="button"
-                    className="btn-copper-outline"
-                    onClick={() => setIsEditing(true)}
-                  >
-                    <Edit2 size={13} /> Edit Message
-                  </button>
-                </div>
-              )}
-            </>
-          )}
+          {/* Subtext honoring dedication */}
+          <p className="distance-subtext">
+            {subtext}
+          </p>
 
           {/* Virtual Hug Interaction */}
           <div className="hug-interaction-wrap">

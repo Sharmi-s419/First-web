@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Edit3, Check, X, Heart, Sparkles, Printer, RotateCcw } from 'lucide-react';
+import { Mail, Heart, Sparkles, RotateCcw } from 'lucide-react';
 
 export default function SpecialLetter({
   letterData = {},
   myName = "KD",
-  partnerName = "ROWDY",
-  onUpdateLetter,
-  isEditMode = false
+  partnerName = "ROWDY"
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [greeting, setGreeting] = useState(letterData.greeting || "En Anbe, Happy One Month to Us ❤️");
+  const [greeting, setGreeting] = useState(letterData.greeting || "En Anbe ❤️");
   const [paragraphs, setParagraphs] = useState(
     Array.isArray(letterData.paragraphs)
       ? letterData.paragraphs.join('\n\n')
@@ -35,26 +32,12 @@ export default function SpecialLetter({
     if (letterData?.signoff) {
       setSignoff(letterData.signoff);
     }
-  }, [letterData]);
+  }, [letterData, myName]);
 
   const handleEnvelopeClick = () => {
     if (!isOpen) {
       setIsOpen(true);
     }
-  };
-
-  const handleSaveEdit = () => {
-    const updated = {
-      greeting,
-      paragraphs: paragraphs.split('\n\n').filter(p => p.trim().length > 0),
-      signoff
-    };
-    onUpdateLetter(updated);
-    setIsEditing(false);
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
   return (
@@ -89,23 +72,31 @@ export default function SpecialLetter({
               onClick={handleEnvelopeClick}
               role="button"
               tabIndex={0}
-              aria-label="Click to break seal and open letter"
+              aria-label="Click to break wax seal and open letter"
             >
               <div className="envelope">
                 <div className="envelope-back" />
                 <div className="envelope-liner" />
 
-                {/* Wax Seal Stamp */}
-                <div className="wax-seal">
+                {/* Left & Right Fold Layers */}
+                <div className="envelope-fold-left" />
+                <div className="envelope-fold-right" />
+
+                {/* Bottom Pocket Fold */}
+                <div className="envelope-pocket-bottom" />
+
+                {/* Top Triangular Flap */}
+                <div className="envelope-flap" />
+
+                {/* Symmetrical 3D Copper Wax Seal Centered on Flap Tip */}
+                <div className="wax-seal" aria-label="KD &amp; ROWDY Wax Seal">
                   <div className="seal-emboss">
-                    <Heart size={20} fill="#f4d1ba" color="#c88151" />
+                    <Heart size={20} fill="#faebd7" color="#faebd7" className="seal-heart" />
                     <span className="seal-initials">{myName} &amp; {partnerName}</span>
                   </div>
                 </div>
 
-                <div className="envelope-flap" />
-                <div className="envelope-pocket" />
-
+                {/* Front Envelope Tag */}
                 <div className="envelope-front-tag">
                   <span className="tag-to">For My Favourite Person</span>
                   <span className="tag-sub">To be opened with love ❤️</span>
@@ -114,7 +105,7 @@ export default function SpecialLetter({
 
               <div className="open-prompt">
                 <Sparkles size={16} className="sparkle-hint" />
-                <span>Tap the envelope to break the wax seal</span>
+                <span>Tap the envelope to open my letter</span>
               </div>
             </div>
           ) : (
@@ -135,108 +126,49 @@ export default function SpecialLetter({
                   </div>
                 </div>
 
-                {isEditing ? (
-                  <div className="letter-edit-form">
-                    <label className="edit-label">Letter Greeting:</label>
-                    <input
-                      type="text"
-                      value={greeting}
-                      onChange={(e) => setGreeting(e.target.value)}
-                      className="letter-input greeting-input"
-                    />
+                <div className="letter-content-render">
+                  {/* Header Group with dedicated clearance for the top-right stamp */}
+                  <div className="letter-header-group">
+                    <span className="first-letter-badge">The First Letter I Wrote for You 💌</span>
+                    <p className="first-letter-sub">My first letter to you, filled with feelings I wanted you to know.</p>
 
-                    <label className="edit-label">Letter Body (Separate paragraphs with double enter):</label>
-                    <textarea
-                      value={paragraphs}
-                      onChange={(e) => setParagraphs(e.target.value)}
-                      rows={8}
-                      className="letter-textarea"
-                    />
-
-                    <label className="edit-label">Sign-off:</label>
-                    <textarea
-                      value={signoff}
-                      onChange={(e) => setSignoff(e.target.value)}
-                      rows={2}
-                      className="letter-input"
-                    />
-
-                    <div className="letter-actions-bar">
-                      <button type="button" className="btn-copper-primary" onClick={handleSaveEdit}>
-                        <Check size={16} /> Save Letter
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-copper-outline"
-                        onClick={() => setIsEditing(false)}
-                      >
-                        <X size={16} /> Cancel
-                      </button>
+                    <div className="letter-top-meta">
+                      <span className="letter-date">October – November 2026</span>
+                      <span className="letter-milestone-tag">1st Month Anniversary</span>
                     </div>
+
+                    <h3 className="letter-greeting text-romance">
+                      {greeting}
+                    </h3>
                   </div>
-                ) : (
-                  <div className="letter-content-render">
-                    {/* Header Group with dedicated clearance for the top-right stamp */}
-                    <div className="letter-header-group">
-                      <span className="first-letter-badge">The First Letter I Wrote for You 💌</span>
-                      <p className="first-letter-sub">My first letter to you, filled with feelings I wanted you to know.</p>
 
-                      <div className="letter-top-meta">
-                        <span className="letter-date">October – November 2026</span>
-                        <span className="letter-milestone-tag">1st Month Anniversary</span>
-                      </div>
-
-                      <h3 className="letter-greeting text-romance">
-                        {greeting}
-                      </h3>
-                    </div>
-
-                    <div className="letter-body text-romance">
-                      {paragraphs.split('\n\n').map((para, i) => (
-                        <p key={i} className="letter-paragraph">
-                          {para}
-                        </p>
-                      ))}
-                    </div>
-
-                    <div className="letter-signoff text-romance">
-                      {signoff.split('\n').map((line, i) => (
-                        <div key={i}>{line}</div>
-                      ))}
-                    </div>
-
-                    {/* Letter Controls */}
-                    <div className="letter-footer-actions">
-                      {isEditMode && (
-                        <button
-                          type="button"
-                          className="btn-copper-outline"
-                          onClick={() => setIsEditing(true)}
-                        >
-                          <Edit3 size={14} /> Edit Words
-                        </button>
-                      )}
-
-                      <button
-                        type="button"
-                        className="btn-copper-outline"
-                        onClick={() => setIsOpen(false)}
-                        title="Fold back into envelope"
-                      >
-                        <RotateCcw size={14} /> Fold Envelope
-                      </button>
-
-                      <button
-                        type="button"
-                        className="btn-copper-outline"
-                        onClick={handlePrint}
-                        title="Print or save as PDF"
-                      >
-                        <Printer size={14} /> Keep as Memory
-                      </button>
-                    </div>
+                  <div className="letter-body text-romance">
+                    {paragraphs.split('\n\n').map((para, i) => (
+                      <p key={i} className="letter-paragraph">
+                        {para}
+                      </p>
+                    ))}
                   </div>
-                )}
+
+                  <div className="letter-signoff text-romance">
+                    {signoff.split('\n').map((line, i) => (
+                      <div key={i}>{line}</div>
+                    ))}
+                  </div>
+
+                  {/* Letter Controls: Only Fold Envelope */}
+                  <div className="letter-footer-actions">
+                    <button
+                      type="button"
+                      className="btn-copper-primary fold-btn"
+                      onClick={() => setIsOpen(false)}
+                      title="Fold back into envelope"
+                    >
+                      <RotateCcw size={16} />
+                      <span>Fold Envelope</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -248,7 +180,7 @@ export default function SpecialLetter({
           display: flex;
           justify-content: center;
           align-items: center;
-          min-height: 480px;
+          min-height: 500px;
           perspective: 1200px;
         }
 
@@ -267,12 +199,12 @@ export default function SpecialLetter({
 
         .envelope {
           position: relative;
-          width: 360px;
-          height: 240px;
-          background: #18151f;
-          border-radius: 12px;
-          border: 1.5px solid rgba(216, 150, 105, 0.35);
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 25px rgba(200, 129, 81, 0.15);
+          width: 380px;
+          height: 250px;
+          background: #14111c;
+          border-radius: 14px;
+          border: 1.5px solid rgba(216, 150, 105, 0.4);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(200, 129, 81, 0.15);
           overflow: hidden;
           display: flex;
           align-items: center;
@@ -282,54 +214,96 @@ export default function SpecialLetter({
         .envelope-back {
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #1d1825 0%, #110f17 100%);
+          background: linear-gradient(145deg, #1d1827 0%, #110e17 100%);
         }
 
         .envelope-liner {
           position: absolute;
-          top: 10px;
-          left: 10px;
-          right: 10px;
-          bottom: 10px;
-          border: 1px dashed rgba(216, 150, 105, 0.2);
-          border-radius: 8px;
+          inset: 10px;
+          border: 1px dashed rgba(216, 150, 105, 0.22);
+          border-radius: 10px;
         }
 
-        /* Flap triangle */
+        /* Side Folds */
+        .envelope-fold-left {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, #171320 0%, #0f0c15 100%);
+          clip-path: polygon(0 0, 50% 50%, 0 100%);
+          z-index: 2;
+        }
+
+        .envelope-fold-right {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(225deg, #171320 0%, #0f0c15 100%);
+          clip-path: polygon(100% 0, 50% 50%, 100% 100%);
+          z-index: 2;
+        }
+
+        /* Bottom Pocket Fold */
+        .envelope-pocket-bottom {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, #1c1727 0%, #13101b 100%);
+          clip-path: polygon(0 100%, 50% 46%, 100% 100%);
+          border-top: 1px solid rgba(216, 150, 105, 0.15);
+          z-index: 3;
+        }
+
+        /* Top Triangular Flap */
         .envelope-flap {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
-          height: 120px;
-          background: linear-gradient(180deg, #252030 0%, #1b1723 100%);
+          height: 140px;
+          background: linear-gradient(180deg, #2a2337 0%, #1e1928 85%, #181321 100%);
           clip-path: polygon(0 0, 100% 0, 50% 100%);
-          border-bottom: 1px solid rgba(216, 150, 105, 0.3);
-          z-index: 2;
+          border-bottom: 1px solid rgba(216, 150, 105, 0.35);
+          filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.65));
+          z-index: 4;
+          transition: transform 0.5s ease;
         }
 
-        /* Wax Seal in Bronze / Wine Red */
+        /* Symmetrical 3D Copper Wax Seal Centered on Flap Apex */
         .wax-seal {
           position: absolute;
-          top: 96px;
+          top: 102px;
           left: 50%;
           transform: translateX(-50%);
-          width: 72px;
-          height: 72px;
+          width: 76px;
+          height: 76px;
           border-radius: 50%;
-          background: radial-gradient(circle at 35% 35%, #b34a5d 0%, #7d1c2c 50%, #4a0d17 100%);
-          border: 2px solid rgba(244, 209, 186, 0.5);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 16px rgba(179, 74, 93, 0.4);
+          background: radial-gradient(circle at 35% 32%, #f8b48c 0%, #d87d4a 32%, #b3562d 68%, #6e201c 100%);
+          border: 2.5px solid rgba(250, 235, 215, 0.85);
+          box-shadow: 
+            0 10px 28px rgba(0, 0, 0, 0.85),
+            inset 0 3px 5px rgba(255, 235, 220, 0.6),
+            inset 0 -3px 6px rgba(50, 12, 10, 0.75);
           display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 4;
-          transition: transform 0.3s ease;
+          z-index: 5;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-sizing: border-box;
+        }
+
+        .wax-seal::before {
+          content: '';
+          position: absolute;
+          inset: 3px;
+          border-radius: 50%;
+          border: 1px dashed rgba(250, 235, 215, 0.45);
+          pointer-events: none;
         }
 
         .envelope-wrapper:hover .wax-seal {
           transform: translateX(-50%) scale(1.08);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.9), 0 0 24px rgba(216, 150, 105, 0.6);
+          box-shadow: 
+            0 14px 34px rgba(0, 0, 0, 0.95),
+            inset 0 3px 6px rgba(255, 235, 220, 0.7),
+            0 0 24px rgba(216, 150, 105, 0.5);
         }
 
         .seal-emboss {
@@ -338,24 +312,32 @@ export default function SpecialLetter({
           align-items: center;
           justify-content: center;
           gap: 2px;
+          text-align: center;
+        }
+
+        .seal-heart {
+          filter: drop-shadow(0 1px 2px rgba(40, 10, 8, 0.9));
         }
 
         .seal-initials {
           font-family: var(--font-serif);
-          font-size: 0.62rem;
+          font-size: 0.58rem;
           letter-spacing: 0.12em;
           color: #faebd7;
           font-weight: 700;
+          text-shadow: 0 1px 2px rgba(40, 10, 8, 0.95);
+          line-height: 1;
         }
 
         .envelope-front-tag {
           position: absolute;
-          bottom: 24px;
+          bottom: 20px;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 4px;
-          z-index: 3;
+          z-index: 5;
+          pointer-events: none;
         }
 
         .tag-to {
@@ -407,9 +389,10 @@ export default function SpecialLetter({
         .parchment-letter {
           position: relative;
           padding: 56px 48px;
-          background: linear-gradient(135deg, rgba(22, 20, 30, 0.95) 0%, rgba(14, 13, 20, 0.98) 100%);
+          background: linear-gradient(135deg, rgba(22, 20, 30, 0.96) 0%, rgba(14, 13, 20, 0.98) 100%);
           border: 1.5px solid rgba(216, 150, 105, 0.35);
           box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(200, 129, 81, 0.15);
+          box-sizing: border-box;
         }
 
         .parchment-wax-stamp {
@@ -494,80 +477,96 @@ export default function SpecialLetter({
         .letter-signoff {
           font-size: 1.45rem;
           color: var(--copper-200);
+          text-align: right;
           font-style: italic;
           line-height: 1.6;
-          border-top: 1px solid rgba(216, 150, 105, 0.15);
-          padding-top: 24px;
-          margin-bottom: 32px;
+          white-space: pre-line;
+          margin-bottom: 36px;
+          padding-top: 20px;
+          border-top: 1px dashed rgba(216, 150, 105, 0.2);
         }
 
         .letter-footer-actions {
           display: flex;
-          align-items: center;
-          gap: 12px;
-          flex-wrap: wrap;
+          justify-content: center;
+          padding-top: 12px;
         }
 
-        /* Edit Form */
-        .letter-edit-form {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
+        .fold-btn {
+          gap: 8px;
+          padding: 12px 28px;
+          font-size: 0.95rem;
         }
 
-        .edit-label {
-          font-size: 0.82rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: var(--copper-300);
-          font-weight: 600;
+        /* Filigree corners */
+        .letter-filigree {
+          position: absolute;
+          width: 32px;
+          height: 32px;
+          border: 1.5px solid var(--copper-500);
+          opacity: 0.5;
         }
 
-        .letter-input, .letter-textarea {
-          width: 100%;
-          background: rgba(10, 9, 14, 0.9);
-          border: 1px solid rgba(216, 150, 105, 0.3);
-          border-radius: var(--radius-sm);
-          padding: 12px 16px;
-          color: var(--cream-100);
-          font-family: inherit;
-          font-size: 1.05rem;
-          line-height: 1.6;
+        .letter-filigree.top-left {
+          top: 14px;
+          left: 14px;
+          border-right: none;
+          border-bottom: none;
         }
 
-        .letter-input:focus, .letter-textarea:focus {
-          outline: none;
-          border-color: var(--copper-400);
-          box-shadow: 0 0 15px rgba(216, 150, 105, 0.25);
+        .letter-filigree.top-right {
+          top: 14px;
+          right: 14px;
+          border-left: none;
+          border-bottom: none;
         }
 
-        .letter-actions-bar {
-          display: flex;
-          gap: 12px;
-          margin-top: 12px;
+        .letter-filigree.bottom-left {
+          bottom: 14px;
+          left: 14px;
+          border-right: none;
+          border-top: none;
+        }
+
+        .letter-filigree.bottom-right {
+          bottom: 14px;
+          right: 14px;
+          border-left: none;
+          border-top: none;
         }
 
         @media (max-width: 640px) {
           .envelope {
-            width: 300px;
-            height: 200px;
+            width: 310px;
+            height: 205px;
+          }
+          .envelope-flap {
+            height: 115px;
           }
           .wax-seal {
-            top: 76px;
-            width: 60px;
-            height: 60px;
+            top: 80px;
+            width: 66px;
+            height: 66px;
+          }
+          .seal-initials {
+            font-size: 0.5rem;
           }
           .parchment-letter {
-            padding: 36px 22px;
+            padding: 38px 22px;
+          }
+          .parchment-wax-stamp {
+            top: 20px;
+            right: 20px;
+          }
+          .letter-header-group {
+            padding-right: 64px;
           }
           .letter-greeting {
-            font-size: 1.6rem;
+            font-size: 1.55rem;
           }
           .letter-body {
             font-size: 1.15rem;
-          }
-          .letter-signoff {
-            font-size: 1.25rem;
+            line-height: 1.65;
           }
         }
       `}</style>

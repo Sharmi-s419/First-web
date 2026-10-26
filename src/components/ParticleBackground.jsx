@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 
 /**
  * Romantic Particle Background
- * Creates an elegant atmosphere with twinkling stars, soft floating copper dust,
- * and delicate glowing hearts drifting upwards gently.
+ * Creates an elegant, cinematic atmosphere with twinkling stars, soft floating copper dust,
+ * and a rich flow of delicate glowing hearts drifting upwards continuously.
  */
-export default function ParticleBackground({ reducedMotion = false }) {
+export default function ParticleBackground() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -31,9 +31,31 @@ export default function ParticleBackground({ reducedMotion = false }) {
     let dust = [];
     let hearts = [];
 
+    const heartColors = [
+      'rgba(224, 152, 106,', // warm copper
+      'rgba(200, 129, 81,',  // antique bronze
+      'rgba(214, 118, 137,', // muted rose
+      'rgba(168, 48, 68,',   // romantic wine
+      'rgba(140, 32, 48,',   // deep dark-red
+      'rgba(242, 210, 186,'  // soft copper-cream
+    ];
+
+    const createHeart = (initial = false) => ({
+      x: Math.random() * width,
+      y: initial ? Math.random() * height : height + 25,
+      size: Math.random() * 8 + 5, // tiny to small hearts (5px to 13px)
+      speedY: Math.random() * 0.42 + 0.26,
+      wobbleSpeed: Math.random() * 0.018 + 0.008,
+      wobbleAmp: Math.random() * 18 + 8,
+      wobbleOffset: Math.random() * Math.PI * 2,
+      alpha: Math.random() * 0.26 + 0.12, // subtle, romantic, readable
+      rotation: (Math.random() - 0.5) * 0.35,
+      color: heartColors[Math.floor(Math.random() * heartColors.length)]
+    });
+
     const initParticles = () => {
-      // Star count based on screen size
-      const starCount = Math.floor((width * height) / 10000);
+      // 1. Star count based on screen area
+      const starCount = Math.floor((width * height) / 9500);
       stars = Array.from({ length: starCount }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -43,35 +65,22 @@ export default function ParticleBackground({ reducedMotion = false }) {
         color: Math.random() > 0.4 ? '#fbf7ee' : '#e5b38d'
       }));
 
-      // Copper dust bokeh
-      const dustCount = Math.floor(width < 768 ? 16 : 30);
+      // 2. Copper dust bokeh
+      const dustCount = Math.floor(width < 768 ? 18 : 34);
       dust = Array.from({ length: dustCount }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         radius: Math.random() * 3 + 1,
-        alpha: Math.random() * 0.3 + 0.1,
+        alpha: Math.random() * 0.25 + 0.08,
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
         color: Math.random() > 0.5 ? 'rgba(216, 150, 105,' : 'rgba(179, 57, 75,'
       }));
 
-      // Subtle rising hearts
-      const heartCount = Math.floor(width < 768 ? 8 : 14);
+      // 3. Noticeably increased floating heart animations
+      const heartCount = Math.floor(width < 768 ? 26 : 48);
       hearts = Array.from({ length: heartCount }, () => createHeart(true));
     };
-
-    const createHeart = (initial = false) => ({
-      x: Math.random() * width,
-      y: initial ? Math.random() * height : height + 20,
-      size: Math.random() * 9 + 6,
-      speedY: Math.random() * 0.45 + 0.25,
-      wobbleSpeed: Math.random() * 0.02 + 0.01,
-      wobbleAmp: Math.random() * 20 + 10,
-      wobbleOffset: Math.random() * Math.PI * 2,
-      alpha: Math.random() * 0.28 + 0.08,
-      rotation: (Math.random() - 0.5) * 0.4,
-      color: Math.random() > 0.4 ? 'rgba(216, 150, 105,' : 'rgba(140, 37, 53,'
-    });
 
     const drawHeart = (x, y, size, alpha, color, rotation) => {
       ctx.save();
@@ -96,19 +105,6 @@ export default function ParticleBackground({ reducedMotion = false }) {
 
     initParticles();
 
-    if (reducedMotion) {
-      // Just draw static frame
-      ctx.clearRect(0, 0, width, height);
-      stars.forEach((s) => {
-        ctx.fillStyle = s.color;
-        ctx.globalAlpha = 0.5;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      return;
-    }
-
     let frame = 0;
     const render = () => {
       frame++;
@@ -119,7 +115,7 @@ export default function ParticleBackground({ reducedMotion = false }) {
         star.alpha += star.twinkleSpeed;
         const currentAlpha = 0.2 + (Math.sin(star.alpha) + 1) * 0.4;
         ctx.fillStyle = star.color;
-        ctx.globalAlpha = Math.max(0.1, Math.min(0.9, currentAlpha));
+        ctx.globalAlpha = Math.max(0.1, Math.min(0.85, currentAlpha));
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -162,7 +158,7 @@ export default function ParticleBackground({ reducedMotion = false }) {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [reducedMotion]);
+  }, []);
 
   return (
     <canvas
@@ -175,7 +171,7 @@ export default function ParticleBackground({ reducedMotion = false }) {
         height: '100%',
         pointerEvents: 'none',
         zIndex: 0,
-        opacity: 0.88
+        opacity: 0.92
       }}
       aria-hidden="true"
     />

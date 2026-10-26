@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Sparkles, 
   MessageCircleHeart, 
   HeartHandshake, 
   Crown, 
-  Plus, 
-  Trash2, 
-  Edit3, 
-  Check, 
-  X,
   Calendar,
   Heart
 } from 'lucide-react';
@@ -21,56 +16,9 @@ const ICON_MAP = {
 };
 
 export default function OurStoryTimeline({
-  data,
-  onUpdateMilestones,
-  isEditMode = false
+  data
 }) {
-  const [editingMilestoneId, setEditingMilestoneId] = useState(null);
-  const [editForm, setEditForm] = useState({ date: '', title: '', description: '' });
-  const [isAddingNew, setIsAddingNew] = useState(false);
-  const [newForm, setNewForm] = useState({ date: '', title: '', description: '' });
-
   const milestones = data.milestones || [];
-
-  const handleStartEdit = (m) => {
-    setEditingMilestoneId(m.id);
-    setEditForm({ date: m.date, title: m.title, description: m.description });
-  };
-
-  const handleSaveEdit = (id) => {
-    const updated = milestones.map(m => {
-      if (m.id === id) {
-        return { ...m, ...editForm };
-      }
-      return m;
-    });
-    onUpdateMilestones(updated);
-    setEditingMilestoneId(null);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to remove this milestone?')) {
-      const updated = milestones.filter(m => m.id !== id);
-      onUpdateMilestones(updated);
-    }
-  };
-
-  const handleAddNew = (e) => {
-    e.preventDefault();
-    if (!newForm.title.trim()) return;
-
-    const newMilestone = {
-      id: 'm_' + Date.now(),
-      date: newForm.date || 'Special Memory',
-      title: newForm.title,
-      description: newForm.description,
-      icon: 'Sparkles'
-    };
-
-    onUpdateMilestones([...milestones, newMilestone]);
-    setNewForm({ date: '', title: '', description: '' });
-    setIsAddingNew(false);
-  };
 
   return (
     <section className="section story-section" id="story">
@@ -101,7 +49,6 @@ export default function OurStoryTimeline({
 
           {milestones.map((item, index) => {
             const IconComponent = ICON_MAP[item.icon] || Sparkles;
-            const isEditing = editingMilestoneId === item.id;
             const isEven = index % 2 === 0;
 
             return (
@@ -119,140 +66,20 @@ export default function OurStoryTimeline({
 
                 {/* Content Card */}
                 <div className="timeline-card copper-card">
-                  {isEditing ? (
-                    <div className="edit-milestone-form">
-                      <input
-                        type="text"
-                        value={editForm.date}
-                        onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
-                        placeholder="Date (e.g. October 4, 2026)"
-                        className="milestone-input"
-                      />
-                      <input
-                        type="text"
-                        value={editForm.title}
-                        onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                        placeholder="Milestone Title"
-                        className="milestone-input title-input"
-                      />
-                      <textarea
-                        value={editForm.description}
-                        onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                        placeholder="Describe this special moment..."
-                        rows={3}
-                        className="milestone-textarea"
-                      />
-                      <div className="edit-actions">
-                        <button
-                          type="button"
-                          className="btn-action save"
-                          onClick={() => handleSaveEdit(item.id)}
-                        >
-                          <Check size={14} /> Save
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-action cancel"
-                          onClick={() => setEditingMilestoneId(null)}
-                        >
-                          <X size={14} /> Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="card-top">
-                        <span className="milestone-date">
-                          <Calendar size={13} />
-                          {item.date}
-                        </span>
+                  <div className="card-top">
+                    <span className="milestone-date">
+                      <Calendar size={13} />
+                      {item.date}
+                    </span>
+                  </div>
 
-                        {isEditMode && (
-                          <div className="card-controls">
-                            <button
-                              type="button"
-                              onClick={() => handleStartEdit(item)}
-                              className="btn-control"
-                              title="Edit milestone"
-                            >
-                              <Edit3 size={14} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleDelete(item.id)}
-                              className="btn-control delete"
-                              title="Delete milestone"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-
-                      <h3 className="milestone-title">{item.title}</h3>
-                      <p className="milestone-desc text-romance">{item.description}</p>
-                    </>
-                  )}
+                  <h3 className="milestone-title">{item.title}</h3>
+                  <p className="milestone-desc text-romance">{item.description}</p>
                 </div>
               </div>
             );
           })}
         </div>
-
-        {/* Add Milestone Feature */}
-        {isEditMode && (
-          <div className="add-milestone-wrapper">
-            {!isAddingNew ? (
-              <button
-                type="button"
-                className="btn-copper-outline add-milestone-btn"
-                onClick={() => setIsAddingNew(true)}
-              >
-                <Plus size={16} /> Add New Milestone
-              </button>
-            ) : (
-              <form onSubmit={handleAddNew} className="new-milestone-form copper-card">
-                <h4 className="form-title copper-gradient-text">Add a Special Memory</h4>
-                <div className="form-row">
-                  <input
-                    type="text"
-                    value={newForm.date}
-                    onChange={(e) => setNewForm({ ...newForm, date: e.target.value })}
-                    placeholder="Date or Period (e.g. October 15, 2026)"
-                    className="milestone-input"
-                  />
-                  <input
-                    type="text"
-                    value={newForm.title}
-                    onChange={(e) => setNewForm({ ...newForm, title: e.target.value })}
-                    placeholder="Milestone Title *"
-                    required
-                    className="milestone-input"
-                  />
-                </div>
-                <textarea
-                  value={newForm.description}
-                  onChange={(e) => setNewForm({ ...newForm, description: e.target.value })}
-                  placeholder="What made this moment unforgettable?"
-                  rows={3}
-                  className="milestone-textarea"
-                />
-                <div className="edit-actions">
-                  <button type="submit" className="btn-copper-primary">
-                    <Plus size={16} /> Save Milestone
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-copper-outline"
-                    onClick={() => setIsAddingNew(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        )}
       </div>
 
       <style>{`

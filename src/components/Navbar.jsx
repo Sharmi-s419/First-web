@@ -1,36 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Heart, 
-  Settings, 
-  Edit3, 
-  Eye, 
-  Sparkles, 
-  Menu, 
-  X,
-  Gauge
-} from 'lucide-react';
+import { Heart, Menu, X } from 'lucide-react';
 
 export default function Navbar({
   myName = "KD",
-  partnerName = "ROWDY",
-  isEditMode,
-  onToggleEditMode,
-  onOpenCustomizer,
-  reducedMotion,
-  onToggleReducedMotion
+  partnerName = "ROWDY"
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 40);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
+    { label: '1st Month', href: '#welcome-screen' },
     { label: 'Counter', href: '#counter' },
     { label: 'Our Story', href: '#story' },
     { label: 'Memories', href: '#memories' },
@@ -40,114 +27,71 @@ export default function Navbar({
     { label: 'Distance', href: '#distance' }
   ];
 
+  const handleLinkClick = (e, href) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <header className={`navbar-header ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Brand / Names */}
-        <a href="#welcome-screen" className="navbar-brand">
+        {/* Brand / Logo on the left */}
+        <a 
+          href="#welcome-screen" 
+          className="navbar-brand"
+          onClick={(e) => handleLinkClick(e, '#welcome-screen')}
+        >
           <Heart size={18} fill="#c88151" color="#faebd7" className="brand-heart" />
           <span className="brand-names">{myName} &amp; {partnerName}</span>
+          <span className="brand-dot">•</span>
           <span className="brand-sub">1st Month</span>
         </a>
 
-        {/* Desktop Nav Links */}
-        <nav className="navbar-links">
+        {/* Desktop Nav Links: Clean, evenly spaced row */}
+        <nav className="navbar-links" aria-label="Main Navigation">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="nav-link">
+            <a
+              key={link.href}
+              href={link.href}
+              className="nav-link"
+              onClick={(e) => handleLinkClick(e, link.href)}
+            >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Action Controls */}
-        <div className="navbar-actions">
-          {/* Reduced Motion Toggle */}
-          <button
-            type="button"
-            className={`btn-nav-control ${reducedMotion ? 'active' : ''}`}
-            onClick={onToggleReducedMotion}
-            title={reducedMotion ? "Enable full animations" : "Enable reduced motion"}
-            aria-label="Toggle animations"
-          >
-            <Gauge size={15} />
-            <span className="control-label">{reducedMotion ? 'Motion Off' : 'Motion On'}</span>
-          </button>
-
-          {/* Edit Mode Toggle */}
-          <button
-            type="button"
-            className={`btn-nav-control edit-toggle ${isEditMode ? 'active' : ''}`}
-            onClick={onToggleEditMode}
-            title={isEditMode ? "Exit edit mode" : "Enter edit mode to customize text and photos"}
-            aria-label="Toggle edit mode"
-          >
-            {isEditMode ? <Eye size={15} /> : <Edit3 size={15} />}
-            <span className="control-label">{isEditMode ? 'Preview Mode' : 'Edit Mode'}</span>
-          </button>
-
-          {/* Customize Modal Trigger */}
-          <button
-            type="button"
-            className="btn-copper-primary nav-customizer-btn"
-            onClick={onOpenCustomizer}
-            title="Open website customization settings"
-          >
-            <Settings size={15} />
-            <span>Customize</span>
-          </button>
-
-          {/* Mobile hamburger */}
-          <button
-            type="button"
-            className="mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle mobile menu"
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
+        {/* Mobile Hamburger Toggle */}
+        <button
+          type="button"
+          className="mobile-menu-btn"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="mobile-drawer">
+        <div className="mobile-drawer" role="dialog" aria-modal="true">
           <div className="mobile-links">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 className="mobile-nav-link"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => handleLinkClick(e, link.href)}
               >
-                {link.label}
+                <span>{link.label}</span>
+                <Heart size={12} className="mobile-link-heart" />
               </a>
             ))}
-          </div>
-
-          <div className="mobile-actions">
-            <button
-              type="button"
-              className={`btn-copper-outline w-full ${isEditMode ? 'active' : ''}`}
-              onClick={() => {
-                onToggleEditMode();
-                setMobileMenuOpen(false);
-              }}
-            >
-              {isEditMode ? <Eye size={15} /> : <Edit3 size={15} />}
-              <span>{isEditMode ? 'Preview Mode' : 'Edit Mode'}</span>
-            </button>
-
-            <button
-              type="button"
-              className="btn-copper-primary w-full"
-              onClick={() => {
-                onOpenCustomizer();
-                setMobileMenuOpen(false);
-              }}
-            >
-              <Settings size={15} />
-              <span>Customize Site</span>
-            </button>
           </div>
         </div>
       )}
@@ -158,37 +102,48 @@ export default function Navbar({
           top: 0;
           left: 0;
           right: 0;
-          height: 72px;
-          display: flex;
-          align-items: center;
-          z-index: 100;
-          transition: var(--transition-smooth);
-          background: transparent;
+          z-index: 1000;
+          background: rgba(8, 7, 12, 0.75);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          border-bottom: 1px solid rgba(216, 150, 105, 0.15);
+          transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .navbar-header.scrolled {
-          background: rgba(10, 9, 14, 0.88);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border-bottom: 1px solid rgba(216, 150, 105, 0.18);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+          background: rgba(6, 5, 9, 0.92);
+          border-bottom-color: rgba(216, 150, 105, 0.28);
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(200, 129, 81, 0.08);
         }
 
         .navbar-container {
-          width: 100%;
           max-width: 1240px;
           margin: 0 auto;
           padding: 0 24px;
+          height: 68px;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 20px;
         }
 
         .navbar-brand {
           display: inline-flex;
           align-items: center;
-          gap: 9px;
+          gap: 8px;
           text-decoration: none;
+          color: var(--cream-100);
+          flex-shrink: 0;
+          transition: transform 0.25s ease;
+        }
+
+        .navbar-brand:hover {
+          transform: translateY(-1px);
+        }
+
+        .brand-heart {
+          filter: drop-shadow(0 0 6px rgba(216, 150, 105, 0.6));
+          animation: gentlePulse 2.5s infinite ease-in-out;
         }
 
         .brand-names {
@@ -199,133 +154,147 @@ export default function Navbar({
           color: var(--cream-100);
         }
 
+        .brand-dot {
+          color: var(--copper-500);
+          font-size: 0.8rem;
+        }
+
         .brand-sub {
-          font-size: 0.7rem;
-          letter-spacing: 0.12em;
+          font-family: var(--font-serif);
+          font-size: 0.78rem;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: var(--copper-400);
-          background: rgba(216, 150, 105, 0.1);
-          padding: 2px 8px;
-          border-radius: var(--radius-full);
-          border: 1px solid rgba(216, 150, 105, 0.2);
+          color: var(--copper-300);
+          font-weight: 600;
         }
 
-        .brand-heart {
-          filter: drop-shadow(0 0 6px rgba(216, 150, 105, 0.6));
-        }
-
+        /* Desktop Nav: Evenly spaced single row */
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: 22px;
+          gap: 6px;
+          flex-wrap: nowrap;
         }
 
         .nav-link {
-          text-decoration: none;
-          color: var(--cream-400);
-          font-size: 0.85rem;
+          font-family: var(--font-sans);
+          font-size: 0.83rem;
           font-weight: 500;
-          letter-spacing: 0.04em;
-          transition: var(--transition-smooth);
+          color: var(--cream-300);
+          text-decoration: none;
+          padding: 6px 12px;
+          border-radius: var(--radius-full);
+          transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+          white-space: nowrap;
+          letter-spacing: 0.02em;
         }
 
         .nav-link:hover {
+          color: #faebd7;
+          background: rgba(216, 150, 105, 0.14);
+          transform: translateY(-1px);
+        }
+
+        /* Mobile Hamburger */
+        .mobile-menu-btn {
+          display: none;
+          background: rgba(216, 150, 105, 0.1);
+          border: 1px solid rgba(216, 150, 105, 0.3);
           color: var(--copper-200);
-        }
-
-        .navbar-actions {
-          display: flex;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
           align-items: center;
-          gap: 10px;
-        }
-
-        .btn-nav-control {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(216, 150, 105, 0.2);
-          color: var(--cream-300);
-          padding: 8px 14px;
-          border-radius: var(--radius-full);
-          font-size: 0.78rem;
-          font-weight: 600;
+          justify-content: center;
           cursor: pointer;
           transition: var(--transition-smooth);
         }
 
-        .btn-nav-control:hover {
-          background: rgba(216, 150, 105, 0.12);
-          color: var(--copper-200);
-        }
-
-        .btn-nav-control.active {
-          background: rgba(200, 129, 81, 0.22);
-          border-color: var(--copper-400);
-          color: var(--copper-100);
-        }
-
-        .nav-customizer-btn {
-          font-size: 0.82rem;
-          padding: 9px 18px;
-        }
-
-        .mobile-menu-btn {
-          display: none;
-          background: transparent;
-          border: none;
-          color: var(--cream-200);
-          cursor: pointer;
+        .mobile-menu-btn:hover {
+          background: rgba(216, 150, 105, 0.2);
+          color: var(--cream-100);
         }
 
         /* Mobile Drawer */
         .mobile-drawer {
-          position: absolute;
-          top: 72px;
-          left: 0;
-          right: 0;
-          background: rgba(14, 13, 20, 0.98);
-          border-bottom: 1px solid rgba(216, 150, 105, 0.2);
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
+          display: none;
+          background: rgba(8, 7, 12, 0.98);
+          border-bottom: 1px solid rgba(216, 150, 105, 0.25);
           backdrop-filter: blur(20px);
+          padding: 16px 20px 24px;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+          animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .mobile-links {
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 6px;
         }
 
         .mobile-nav-link {
-          text-decoration: none;
-          color: var(--cream-200);
-          font-size: 1.1rem;
-          padding: 8px 0;
-          border-bottom: 1px solid rgba(216, 150, 105, 0.1);
-        }
-
-        .mobile-actions {
           display: flex;
-          flex-direction: column;
-          gap: 10px;
+          align-items: center;
+          justify-content: space-between;
+          padding: 11px 16px;
+          color: var(--cream-200);
+          text-decoration: none;
+          font-size: 0.94rem;
+          font-weight: 500;
+          border-radius: var(--radius-md);
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid transparent;
+          transition: all 0.2s ease;
         }
 
-        .w-full {
-          width: 100%;
+        .mobile-nav-link:hover,
+        .mobile-nav-link:active {
+          color: #faebd7;
+          background: rgba(216, 150, 105, 0.12);
+          border-color: rgba(216, 150, 105, 0.25);
         }
 
-        @media (max-width: 992px) {
+        .mobile-link-heart {
+          color: var(--copper-400);
+          opacity: 0.6;
+        }
+
+        @media (max-width: 960px) {
           .navbar-links {
-            display: none;
-          }
-          .control-label {
             display: none;
           }
           .mobile-menu-btn {
             display: flex;
+          }
+          .mobile-drawer {
+            display: block;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .navbar-container {
+            height: 60px;
+            padding: 0 16px;
+          }
+          .brand-names {
+            font-size: 0.95rem;
+          }
+          .brand-sub {
+            display: none;
+          }
+          .brand-dot {
+            display: none;
           }
         }
       `}</style>

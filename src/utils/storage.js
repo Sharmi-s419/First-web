@@ -100,7 +100,11 @@ export function loadAnniversaryData(defaultData) {
         firstLetterSubtitle: "My first letter to you, filled with feelings I wanted you to know."
       },
       longDistance: { ...defaultData.longDistance, ...(parsed.longDistance || {}) },
-      song: { ...defaultData.song, ...(parsed.song || {}) },
+      song: {
+        title: "Apka Baakka",
+        artist: "Dedicated to KD & ROWDY",
+        audioUrl: "/audio/apka_baakka.mp3"
+      },
       finalSurprise: { ...defaultData.finalSurprise, ...(parsed.finalSurprise || {}) }
     };
   } catch (e) {

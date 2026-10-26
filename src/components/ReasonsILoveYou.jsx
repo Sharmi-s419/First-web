@@ -1,58 +1,10 @@
 import React, { useState } from 'react';
-import { Heart, Plus, Trash2, Edit2, Check, X, Sparkles, Shuffle } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function ReasonsILoveYou({
-  reasons = [],
-  onUpdateReasons,
-  isEditMode = false
+  reasons = []
 }) {
-  const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({ quote: '', detail: '' });
-  const [isAddingNew, setIsAddingNew] = useState(false);
-  const [newForm, setNewForm] = useState({ quote: '', detail: '' });
   const [activeCardId, setActiveCardId] = useState(null);
-
-  // Handle Edit
-  const handleStartEdit = (r) => {
-    setEditingId(r.id);
-    setEditForm({ quote: r.quote, detail: r.detail || '' });
-  };
-
-  const handleSaveEdit = (id) => {
-    const updated = reasons.map((r) => {
-      if (r.id === id) {
-        return { ...r, ...editForm };
-      }
-      return r;
-    });
-    onUpdateReasons(updated);
-    setEditingId(null);
-  };
-
-  // Handle Delete
-  const handleDelete = (id) => {
-    if (window.confirm('Do you want to delete this reason?')) {
-      const updated = reasons.filter((r) => r.id !== id);
-      onUpdateReasons(updated);
-    }
-  };
-
-  // Handle Add
-  const handleAddNew = (e) => {
-    e.preventDefault();
-    if (!newForm.quote.trim()) return;
-
-    const newReason = {
-      id: 'reason_' + Date.now(),
-      number: String(reasons.length + 1).padStart(2, '0'),
-      quote: newForm.quote,
-      detail: newForm.detail || 'One of the countless reasons my heart chose you.'
-    };
-
-    onUpdateReasons([...reasons, newReason]);
-    setNewForm({ quote: '', detail: '' });
-    setIsAddingNew(false);
-  };
 
   const toggleExpand = (id) => {
     setActiveCardId(prev => (prev === id ? null : id));
@@ -83,7 +35,6 @@ export default function ReasonsILoveYou({
         {/* Reasons Grid */}
         <div className="reasons-grid">
           {reasons.map((item, index) => {
-            const isEditing = editingId === item.id;
             const isExpanded = activeCardId === item.id;
 
             return (
@@ -91,7 +42,7 @@ export default function ReasonsILoveYou({
                 key={item.id}
                 className={`reason-card copper-card ${isExpanded ? 'expanded' : ''}`}
                 style={{ animationDelay: `${index * 0.12}s` }}
-                onClick={() => !isEditing && toggleExpand(item.id)}
+                onClick={() => toggleExpand(item.id)}
               >
                 {/* Number & Heart Icon */}
                 <div className="reason-header">
@@ -103,124 +54,19 @@ export default function ReasonsILoveYou({
                   </div>
                 </div>
 
-                {isEditing ? (
-                  <div className="edit-reason-wrap" onClick={(e) => e.stopPropagation()}>
-                    <input
-                      type="text"
-                      value={editForm.quote}
-                      onChange={(e) => setEditForm({ ...editForm, quote: e.target.value })}
-                      placeholder="Reason headline..."
-                      className="reason-input"
-                    />
-                    <textarea
-                      value={editForm.detail}
-                      onChange={(e) => setEditForm({ ...editForm, detail: e.target.value })}
-                      placeholder="Why this means so much to you..."
-                      rows={2}
-                      className="reason-textarea"
-                    />
-                    <div className="reason-edit-actions">
-                      <button
-                        type="button"
-                        className="btn-action save"
-                        onClick={() => handleSaveEdit(item.id)}
-                      >
-                        <Check size={13} /> Save
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-action cancel"
-                        onClick={() => setEditingId(null)}
-                      >
-                        <X size={13} /> Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <h3 className="reason-quote text-romance">
-                      “{item.quote}”
-                    </h3>
+                <h3 className="reason-quote text-romance">
+                  “{item.quote}”
+                </h3>
 
-                    {item.detail && (
-                      <p className="reason-detail">
-                        {item.detail}
-                      </p>
-                    )}
-
-                    {/* Card controls */}
-                    {isEditMode && (
-                      <div className="reason-controls" onClick={(e) => e.stopPropagation()}>
-                        <button
-                          type="button"
-                          onClick={() => handleStartEdit(item)}
-                          className="control-btn"
-                          title="Edit reason"
-                        >
-                          <Edit2 size={13} /> Edit
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(item.id)}
-                          className="control-btn delete"
-                          title="Delete reason"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
-                    )}
-                  </>
+                {item.detail && (
+                  <p className="reason-detail">
+                    {item.detail}
+                  </p>
                 )}
               </div>
             );
           })}
         </div>
-
-        {/* Add Reason Form */}
-        {isEditMode && (
-          <div className="add-reason-wrap">
-            {!isAddingNew ? (
-              <button
-                type="button"
-                className="btn-copper-outline"
-                onClick={() => setIsAddingNew(true)}
-              >
-                <Plus size={16} /> Add Another Reason
-              </button>
-            ) : (
-              <form onSubmit={handleAddNew} className="new-reason-form copper-card">
-                <h4 className="new-form-title copper-gradient-text">Add a Reason</h4>
-                <input
-                  type="text"
-                  value={newForm.quote}
-                  onChange={(e) => setNewForm({ ...newForm, quote: e.target.value })}
-                  placeholder="e.g. The way you check up on me after a long shift..."
-                  required
-                  className="reason-input"
-                />
-                <textarea
-                  value={newForm.detail}
-                  onChange={(e) => setNewForm({ ...newForm, detail: e.target.value })}
-                  placeholder="Add a sweet personal note (optional)..."
-                  rows={2}
-                  className="reason-textarea"
-                />
-                <div className="reason-edit-actions">
-                  <button type="submit" className="btn-copper-primary">
-                    <Plus size={16} /> Add Reason
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-copper-outline"
-                    onClick={() => setIsAddingNew(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        )}
       </div>
 
       <style>{`
