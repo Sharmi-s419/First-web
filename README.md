@@ -175,4 +175,5 @@ Deploying to Vercel gives you a permanent, fast, secure `https://...` link that 
 *Made with love for KD & ROWDY.*
 #   L o v e  
  #   L o v e  
+ #   R o w d y  
  
