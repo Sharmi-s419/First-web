@@ -131,29 +131,32 @@ export const defaultAnniversaryData = {
 
   // 5. Special Letter
   letter: {
-    firstLetterHeading: "The First Letter I Wrote for You 💌",
-    firstLetterSubtitle: "My first letter to you, filled with feelings I wanted you to know.",
+    firstLetterHeading: "Chapter One: Our Forever Begins ❤️",
+    firstLetterSubtitle: "One little milestone, so many feelings, and a story I want to keep writing with you.",
     sealTitle: "From KD with all my heart",
     greeting: "En Anbe ❤️",
     paragraphs: [
-      "Naan idha ungakitte proper-ah sonnena nu therila… aana, en life-la neenga irukkuradhu enakku romba pidicha oru vishayam aayiduchu. ❤️",
-      "Namma pesina conversations, namma panra silly moments, chinna chinna sandaigal, namma sirippu, andha ordinary days ellathukkum naduvula… eppo nu theriyama neenga enakku romba special aayita.",
-      "Enakku oru perfect love story venum nu illa.\nEnakku namma story dhaan venum❤️",
-      "Messy days irukkattum, happy days irukkattum, namma fight pandra days sa irukattum ellamey venum. Unga kooda experience panna dhaan aasai.",
-      "Ennaku namma pesurathula neenga pathi things sa full la solla matinga atha full la finish pandrathu ennaku romba pidikum",
-      "Athu mattum illa unga life la full ahatha place sa na fill pannanum nu ninaikuren.",
-      "So, innaiku naan unnagala enna chose panna sollala… forever promise pannunga nu kooda kekkala.",
-      "Naan just oru vishayam dhaan kekkuren…",
-      "Neenga enna choose pannuvingala ❤️",
-      "Innaikku mattum illa"
+      "Enakku oru vishayam ungalukitta manasa vittu sollanum. En life-la neenga enakku evlo special-nu ungalukku theriyum-nu ninaikkiren. Aana, naan ungalukku evlo perfect person-ah irukken-nu enakku theriyala. Enakku neenga perfect-thaan. Aana naan ungalukku appadi irukkena-nu yosikkumbodhu, sila neram enakke doubt varum.",
+      "Naan niraiya loose-thanamaana vishayangal pannirukken-nu enakku theriyum. Enakku curiosity konjam adhigam. Aduthu enna nadakkum, idhu yen ippadi irukku, idhukku enna meaning-nu therinjukkanum-nu thonum. Andha curiosity-la sila neram yosikkaama pesiduven, sila neram thappana vishayangal panniduven. Adhu ungalukku pidikkaadha vishayama irundhirukkum-nu enakku theriyum. Naan pannadhellam correct-nu solla varala. En thappu enakku puriyudhu, adha konjam konjama correct pannikanum-nu ninaikkiren. Naan atha correct panniduven.",
+      "Innum oru vishayam enakku puriyudhu. Ungalukku en mela full-ah trust varradhukku innum time thevaipadalam. En past pathi neenga kekkumbodhu, enakku past-la oru relationship irundhucha-nu neenga doubt paduradhu enakku puriyudhu. Aana unmaiya sollanum-na, enakku past-la relationship edhuvum illa. Adha naan evlo thadava sonnalum, en vaarthaigal mattum vechu ungalukku nambikkai varuma-nu enakku theriyala. Aana naan ungalukitta solradhu unmai. Naan ungalukitta edhaiyum maraichu vechuttu indha relationship-ku varala.",
+      "Neenga enakku evlo pidikkum-nu ungalukku theriyuma? Enakku ungal mela irukkura feelings genuine. Naan ungalai choose pannadhu summa time pass-kagavo illa, thanimaiya avoid pannuradhukkagavo illa. Ungaloda irukkanum, ungala innum nalla therinjukkanum, namma rendu perum serndhu oru azhagana relationship build pannanum-nu dhaan aasai.",
+      "Naan niraiya thadava ungalai kovappaduthirukken-nu enakku theriyum. Sila neram sambandhame illaama edhaavadhu pesi, thevai illaadha kelvigal kettu, neenga kovapadra maadhiri nadandhirukken. Especially, ungaloda past pathi, neenga munnaadi yaaraiyaavadhu love pannirukkeengala-nu ketta sila kelvigal, sila nerangal-la romba childish-ah irundhirukkum. Adhellam naan deny panna maaten. Aana adhu naan ungalai namba maatten-ngra artham illa. Sila neram en curiosity-um, overthinking-um serndhu ennai appadi pesa vechududhu. Adha naan purinjukittu change aaganum.",
+      "Namma relationship start panni innum oru maasam dhaan aagudhu. Aana en mind-la namma future pathi evlo imagination irukku theriyuma? Naan sila neram romba speed-ah ellathaiyum yosichiduven. Andha curiosity-la dhaan questions neraya kepen. Aana nijathula, andha story-ah azhaga build panna namakku neram venum-nu ippo puriyudhu.",
+      "Ellathayum munnadiye therinjukitta life interesting-ah irukkaadhu-nu purinjikitten. And sorry, starting-la neenga sollumbodhu enakku puriyala, but ippo puriyudhu. Life-oda most interesting-aana vishayame next enna nadakkapogudhunu theriyaama irukkuradhudhaan. ❤️",
+      "Adhanaala naan oru decision eduthirukken. Namma relationship-ah rush panna vendaam. Aana ovvoru vishayathaiyum konjam konjama experience pannalaam. Oruvarai oruvar innum nalla purinjukkalaam. Namma happy moments-ah enjoy pannalaam, misunderstandings vandha pesi solve pannalaam, sandaigal vandhaalum orutharoda feelings-ah innoruthar purinjukka try pannalaam.",
+      "Enakku ungalai namba aasai mattum illa, naan ungalukku nambikkaiyaana person-ah irukkanum-ngra aasaiyum irukku. Ungalukku en mela irukkura doubts ellam ore naal-la poidanum-nu naan force panna maaten. Nambikkai build aaga time aagalam. Aana naan ungalukitta unmaiya iruppen. Ennaala mudinja alavukku ungaloda feelings-ah purinjukka try pannuven. Edhaavadhu thappu pannina, adha accept panni correct pannikka kathukkuven.",
+      "Naan perfect illa. Sila neram childish-ah iruppen, sila neram overthink pannuven, sila neram en feelings-ah eppadi express panradhu-nu kooda theriyama thavippen. Aana idhellam irundhaalum, ungalai love panradhu mattum enakku romba genuine. Naan improve aaganum-nu ninaikkiradhu ungalukkaaga mattum illa; namma relationship healthy-ah, happy-ah irukkanum-ngradhukkaagavum dhaan.",
+      "Namma journey ippo dhaan start aagirukku. Namma innum niraiya kathukkanum, niraiya memories create pannanum, orutharoda strengths-um weaknesses-um purinjukkanum. Namma love-ah speed-ah prove panna vendiya avasiyam illa. Daily konjam konjama care panni, purinjukittu, respect panni, nambikkai build panninaale podhum.",
+      "**I love you so much, Rowdy. ❤️**",
+      "**Namma rendu perum serndhu nadandhaale podhum. ❤️**"
     ],
-    signoff: "Forever cheering for you,\nKD ❤️"
+    signoff: "Always yours,\n**Ungaloda KD ❤️**"
   },
 
   // 6. Our Song
   song: {
-    title: "Apka Baakka",
-    artist: "Dedicated to KD & ROWDY",
+    title: "Our favourite song",
+    artist: "Holding a little piece of us in every note. ❤️",
     audioUrl: "/audio/apka_baakka.mp3"
   },
 

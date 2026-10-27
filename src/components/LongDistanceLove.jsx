@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { Moon, Heart, Sparkles, Shield } from 'lucide-react';
+import VirtualHugModal from './VirtualHugModal';
 
 export default function LongDistanceLove({
   data = {},
   myName = "KD",
   partnerName = "ROWDY"
 }) {
-  const [hugSent, setHugSent] = useState(false);
+  const [isHugModalOpen, setIsHugModalOpen] = useState(false);
   const quote = data.quote || "No matter how many miles separate us, you will always have a special place in my heart. I am proud of you, and I will always be cheering for you.";
   const subtext = data.subtext || "Looking up at the exact same moon and stars. Your devotion and honor make me prouder than words can ever say.";
 
   const handleSendHug = () => {
-    setHugSent(true);
-    setTimeout(() => {
-      setHugSent(false);
-    }, 4000);
+    setIsHugModalOpen(true);
   };
 
   return (
@@ -61,27 +59,26 @@ export default function LongDistanceLove({
           <div className="hug-interaction-wrap">
             <button
               type="button"
-              className={`btn-send-hug ${hugSent ? 'sent' : ''}`}
+              className="btn-send-hug"
               onClick={handleSendHug}
-              disabled={hugSent}
+              aria-label={`Send a Virtual Hug to ${partnerName}`}
             >
               <Heart
                 size={18}
-                fill={hugSent ? '#faebd7' : '#c88151'}
-                className={hugSent ? 'hug-heart-pulse' : ''}
+                fill="#c88151"
+                className="hug-heart-pulse"
               />
-              <span>
-                {hugSent ? 'Sending Warm Hug Across The Distance... ❤️' : 'Send a Virtual Hug to ROWDY'}
-              </span>
+              <span>Send a Virtual Hug to {partnerName}</span>
             </button>
-
-            {hugSent && (
-              <div className="hug-toast animate-float">
-                <Sparkles size={16} />
-                <span>Hug delivered straight to {partnerName}'s heart!</span>
-              </div>
-            )}
           </div>
+
+          {/* Animated Virtual Hug Modal */}
+          <VirtualHugModal
+            isOpen={isHugModalOpen}
+            onClose={() => setIsHugModalOpen(false)}
+            partnerName={partnerName}
+            myName={myName}
+          />
 
           {/* Subtle Respectful Honor Badge */}
           <div className="military-respect-pill">

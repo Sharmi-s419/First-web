@@ -1,6 +1,6 @@
 // LocalStorage and IndexedDB helpers for persisting anniversary website customizations
 
-const STORAGE_KEY = 'romantic_anniversary_data_v4';
+const STORAGE_KEY = 'romantic_anniversary_data_v5';
 const DB_NAME = 'AnniversaryMediaDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'mediaFiles';
@@ -95,15 +95,17 @@ export function loadAnniversaryData(defaultData) {
       letter: {
         ...defaultData.letter,
         ...(parsed.letter || {}),
-        greeting: "En Anbe ❤️",
-        firstLetterHeading: "The First Letter I Wrote for You 💌",
-        firstLetterSubtitle: "My first letter to you, filled with feelings I wanted you to know."
+        greeting: defaultData.letter.greeting,
+        firstLetterHeading: defaultData.letter.firstLetterHeading,
+        firstLetterSubtitle: defaultData.letter.firstLetterSubtitle,
+        paragraphs: defaultData.letter.paragraphs,
+        signoff: defaultData.letter.signoff
       },
       longDistance: { ...defaultData.longDistance, ...(parsed.longDistance || {}) },
       song: {
-        title: "Apka Baakka",
-        artist: "Dedicated to KD & ROWDY",
-        audioUrl: "/audio/apka_baakka.mp3"
+        title: defaultData.song.title,
+        artist: defaultData.song.artist,
+        audioUrl: defaultData.song.audioUrl || "/audio/apka_baakka.mp3"
       },
       finalSurprise: { ...defaultData.finalSurprise, ...(parsed.finalSurprise || {}) }
     };

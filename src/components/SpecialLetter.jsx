@@ -14,8 +14,24 @@ export default function SpecialLetter({
       : (letterData.paragraphs || '')
   );
   const [signoff, setSignoff] = useState(
-    letterData.signoff || `Forever cheering for you,\n${myName} ❤️`
+    letterData.signoff || `Always yours,\n**Ungaloda KD ❤️**`
   );
+
+  // Helper to parse **bold** text in paragraphs & signoff
+  const renderFormattedText = (text) => {
+    if (!text) return null;
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <strong key={index} className="letter-strong">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      return part;
+    });
+  };
 
   // Keep state synchronized with incoming letterData
   useEffect(() => {
@@ -32,7 +48,7 @@ export default function SpecialLetter({
     if (letterData?.signoff) {
       setSignoff(letterData.signoff);
     }
-  }, [letterData, myName]);
+  }, [letterData]);
 
   const handleEnvelopeClick = () => {
     if (!isOpen) {
@@ -55,7 +71,7 @@ export default function SpecialLetter({
           </div>
 
           <h2 className="section-title copper-gradient-text">
-            A Letter From My Heart 💌
+            A Letter From My Heart
           </h2>
 
           <p className="section-subtitle text-romance">
@@ -129,8 +145,12 @@ export default function SpecialLetter({
                 <div className="letter-content-render">
                   {/* Header Group with dedicated clearance for the top-right stamp */}
                   <div className="letter-header-group">
-                    <span className="first-letter-badge">The First Letter I Wrote for You 💌</span>
-                    <p className="first-letter-sub">My first letter to you, filled with feelings I wanted you to know.</p>
+                    <span className="first-letter-badge">
+                      {letterData.firstLetterHeading || "Chapter One: Our Forever Begins ❤️"}
+                    </span>
+                    <p className="first-letter-sub">
+                      {letterData.firstLetterSubtitle || "One little milestone, so many feelings, and a story I want to keep writing with you."}
+                    </p>
 
                     <div className="letter-top-meta">
                       <span className="letter-date">October – November 2026</span>
@@ -145,14 +165,14 @@ export default function SpecialLetter({
                   <div className="letter-body text-romance">
                     {paragraphs.split('\n\n').map((para, i) => (
                       <p key={i} className="letter-paragraph">
-                        {para}
+                        {renderFormattedText(para)}
                       </p>
                     ))}
                   </div>
 
                   <div className="letter-signoff text-romance">
                     {signoff.split('\n').map((line, i) => (
-                      <div key={i}>{line}</div>
+                      <div key={i}>{renderFormattedText(line)}</div>
                     ))}
                   </div>
 
@@ -472,6 +492,11 @@ export default function SpecialLetter({
         .letter-paragraph {
           position: relative;
           white-space: pre-line;
+        }
+
+        .letter-strong {
+          font-weight: 700;
+          color: var(--copper-200);
         }
 
         .letter-signoff {

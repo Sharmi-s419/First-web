@@ -4,7 +4,6 @@ import WelcomeScreen from './components/WelcomeScreen';
 import RelationshipCounter from './components/RelationshipCounter';
 import OurStoryTimeline from './components/OurStoryTimeline';
 import MemoriesGallery from './components/MemoriesGallery';
-import ReasonsILoveYou from './components/ReasonsILoveYou';
 import SpecialLetter from './components/SpecialLetter';
 import MusicPlayer from './components/MusicPlayer';
 import LongDistanceLove from './components/LongDistanceLove';
@@ -70,12 +69,7 @@ export default function App() {
           photos={data.photos}
         />
 
-        {/* 5. Reasons I Love You */}
-        <ReasonsILoveYou
-          reasons={data.reasons}
-        />
-
-        {/* 6. A Special Letter from My Heart */}
+        {/* 5. A Special Letter from My Heart */}
         <SpecialLetter
           letterData={data.letter}
           myName={data.myName}

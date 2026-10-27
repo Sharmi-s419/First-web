@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Heart, Disc3 } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Heart, Music } from 'lucide-react';
 
 export default function MusicPlayer({
   songData = {}
@@ -11,10 +11,9 @@ export default function MusicPlayer({
 
   const audioRef = useRef(null);
 
-  // Song is explicitly Apka Baakka as requested
-  const songTitle = "Apka Baakka";
-  const songArtist = "Dedicated to KD & ROWDY";
-  const audioSource = "/audio/apka_baakka.mp3";
+  const songTitle = songData?.title || "Our favourite song";
+  const songArtist = songData?.artist || "Holding a little piece of us in every note. ❤️";
+  const audioSource = songData?.audioUrl || "/audio/apka_baakka.mp3";
 
   useEffect(() => {
     if (audioRef.current) {
@@ -35,7 +34,6 @@ export default function MusicPlayer({
           setIsPlaying(true);
         })
         .catch((err) => {
-          // Gracefully catch if file is not yet provided by the user
           setIsPlaying(false);
           setAudioError(true);
         });
@@ -69,12 +67,17 @@ export default function MusicPlayer({
       <div className="container">
         {/* Section Header */}
         <div className="section-header">
+          <div className="section-tag">
+            <Music size={13} />
+            <span>Soundtrack</span>
+          </div>
+
           <h2 className="section-title copper-gradient-text">
-            Our Song 🎵
+            {songTitle}
           </h2>
 
           <p className="section-subtitle text-romance">
-            The soundtrack to our quiet moments and late-night thoughts.
+            {songArtist}
           </p>
         </div>
 
@@ -108,7 +111,7 @@ export default function MusicPlayer({
 
               {audioError && (
                 <p className="audio-notice">
-                  “{songTitle}” is ready to play once the audio file is placed in /audio/apka_baakka.mp3 ❤️
+                  Tap play to listen to “{songTitle}” ❤️
                 </p>
               )}
             </div>
@@ -157,7 +160,7 @@ export default function MusicPlayer({
           <audio
             ref={audioRef}
             src={audioSource}
-            preload="none"
+            preload="metadata"
             onEnded={handleEnded}
             onError={() => {
               if (isPlaying) {

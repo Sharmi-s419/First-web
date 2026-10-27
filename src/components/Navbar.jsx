@@ -21,7 +21,6 @@ export default function Navbar({
     { label: 'Counter', href: '#counter' },
     { label: 'Our Story', href: '#story' },
     { label: 'Memories', href: '#memories' },
-    { label: 'Reasons', href: '#reasons' },
     { label: 'Letter', href: '#letter' },
     { label: 'Our Song', href: '#music' },
     { label: 'Distance', href: '#distance' }
@@ -172,17 +171,17 @@ export default function Navbar({
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 10px;
           flex-wrap: nowrap;
         }
 
         .nav-link {
           font-family: var(--font-sans);
-          font-size: 0.83rem;
+          font-size: 0.86rem;
           font-weight: 500;
           color: var(--cream-300);
           text-decoration: none;
-          padding: 6px 12px;
+          padding: 7px 14px;
           border-radius: var(--radius-full);
           transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
           white-space: nowrap;
@@ -191,7 +190,7 @@ export default function Navbar({
 
         .nav-link:hover {
           color: #faebd7;
-          background: rgba(216, 150, 105, 0.14);
+          background: rgba(216, 150, 105, 0.16);
           transform: translateY(-1px);
         }
 
